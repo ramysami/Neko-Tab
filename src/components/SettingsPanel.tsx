@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Settings, X, Plus, Check, Upload, Palette, Save } from 'lucide-react'
+import { Settings, X, Plus, Check, Upload, Palette, Save, Monitor, Terminal } from 'lucide-react'
 import type { Settings as SettingsType, ThemeInfo } from '../types'
 import { convertImageToAscii } from '../utils/imageToAscii'
 
@@ -36,8 +36,11 @@ interface SettingsPanelProps {
   onAddCategory: (name: string) => void
 }
 
+type TabType = 'appearance' | 'preferences' | 'ascii';
+
 export function SettingsPanel({ settings, onSettingsChange, onAddCategory }: SettingsPanelProps) {
   const [isOpen, setIsOpen] = useState(false)
+  const [activeTab, setActiveTab] = useState<TabType>('appearance')
   const [localSettings, setLocalSettings] = useState<SettingsType>(settings)
   const [newCategoryName, setNewCategoryName] = useState('')
   const [uploadedFile, setUploadedFile] = useState<File | null>(null)
@@ -84,6 +87,18 @@ export function SettingsPanel({ settings, onSettingsChange, onAddCategory }: Set
     }
   }
 
+  const renderToggle = (label: string, checked: boolean, onChange: (val: boolean) => void) => (
+    <div className="saas-toggle-row">
+      <span className="saas-toggle-label">{label}</span>
+      <button 
+        className={`saas-toggle-btn ${checked ? 'active' : ''}`}
+        onClick={() => onChange(!checked)}
+      >
+        <div className="saas-toggle-thumb" />
+      </button>
+    </div>
+  )
+
   return (
     <>
       <button 
@@ -96,269 +111,257 @@ export function SettingsPanel({ settings, onSettingsChange, onAddCategory }: Set
 
       {isOpen && (
         <div className='settings-overlay' onClick={() => setIsOpen(false)}>
-          <div className='settings-panel theme-selector-panel' onClick={e => e.stopPropagation()}>
-            <div className='settings-header'>
-              <div className='settings-title'>
-                <Palette size={20} />
-                <h3>Theme Selector</h3>
+          <div className='saas-modal' onClick={e => e.stopPropagation()}>
+            {/* Sidebar Navigation */}
+            <div className='saas-sidebar'>
+              <div className='saas-sidebar-header'>
+                <Settings size={18} />
+                <span>Settings</span>
               </div>
-              <button className='close-btn' onClick={() => setIsOpen(false)}>
-                <X size={18} />
-              </button>
+              <nav className='saas-nav'>
+                <button 
+                  className={`saas-nav-item ${activeTab === 'appearance' ? 'active' : ''}`}
+                  onClick={() => setActiveTab('appearance')}
+                >
+                  <Palette size={16} /> Appearance
+                </button>
+                <button 
+                  className={`saas-nav-item ${activeTab === 'preferences' ? 'active' : ''}`}
+                  onClick={() => setActiveTab('preferences')}
+                >
+                  <Monitor size={16} /> Preferences
+                </button>
+                <button 
+                  className={`saas-nav-item ${activeTab === 'ascii' ? 'active' : ''}`}
+                  onClick={() => setActiveTab('ascii')}
+                >
+                  <Terminal size={16} /> ASCII Art
+                </button>
+              </nav>
             </div>
 
-            <div className='settings-content'>
-              {/* Theme Selection Grid */}
-              <div className='setting-item'>
-                <label className='section-label'>COLOR THEMES</label>
-                <div className='theme-grid'>
-                  {THEMES.filter(t => t.category === 'color').map(theme => (
-                    <div 
-                      key={theme.id}
-                      className={`theme-card ${localSettings.theme === theme.id ? 'active' : ''}`}
-                      onClick={() => handleChange('theme', theme.id)}
-                    >
-                      <div 
-                        className='theme-preview'
-                        style={{ 
-                          backgroundColor: theme.bgColor,
-                          borderColor: localSettings.theme === theme.id ? theme.accentColor : 'transparent'
-                        }}
-                      >
-                        <div className='theme-preview-lines'>
-                          <div className='preview-line' style={{ backgroundColor: theme.accentColor, width: '60%' }}></div>
-                          <div className='preview-line' style={{ backgroundColor: theme.textColor, width: '80%', opacity: 0.3 }}></div>
-                          <div className='preview-line' style={{ backgroundColor: theme.textColor, width: '40%', opacity: 0.3 }}></div>
-                        </div>
-                        <div className='theme-preview-dot' style={{ backgroundColor: theme.accentColor }}></div>
-                        {localSettings.theme === theme.id && (
-                          <div className='theme-check' style={{ backgroundColor: theme.accentColor }}>
-                            <Check size={12} />
+            {/* Main Content Area */}
+            <div className='saas-main'>
+              <div className='saas-main-header'>
+                <h3 className='saas-title'>
+                  {activeTab === 'appearance' && 'Theme & Appearance'}
+                  {activeTab === 'preferences' && 'System Preferences'}
+                  {activeTab === 'ascii' && 'Custom ASCII Art'}
+                </h3>
+                <button className='saas-close-btn' onClick={() => setIsOpen(false)}>
+                  <X size={18} />
+                </button>
+              </div>
+
+              <div className='saas-content-scroll'>
+                {/* APPEARANCE TAB */}
+                {activeTab === 'appearance' && (
+                  <div className='saas-section'>
+                    <div className='saas-section-group'>
+                      <label className='saas-section-label'>COLOR THEMES</label>
+                      <div className='saas-theme-grid'>
+                        {THEMES.filter(t => t.category === 'color').map(theme => (
+                          <div 
+                            key={theme.id}
+                            className={`saas-theme-card ${localSettings.theme === theme.id ? 'active' : ''}`}
+                            onClick={() => handleChange('theme', theme.id)}
+                          >
+                            <div 
+                              className='theme-preview'
+                              style={{ 
+                                backgroundColor: theme.bgColor,
+                                borderColor: localSettings.theme === theme.id ? theme.accentColor : 'rgba(255,255,255,0.05)'
+                              }}
+                            >
+                              <div className='theme-preview-lines'>
+                                <div className='preview-line' style={{ backgroundColor: theme.accentColor, width: '60%' }}></div>
+                                <div className='preview-line' style={{ backgroundColor: theme.textColor, width: '80%', opacity: 0.3 }}></div>
+                              </div>
+                              <div className='theme-preview-dot' style={{ backgroundColor: theme.accentColor }}></div>
+                              {localSettings.theme === theme.id && (
+                                <div className='theme-check' style={{ backgroundColor: theme.accentColor }}>
+                                  <Check size={12} strokeWidth={3} />
+                                </div>
+                              )}
+                            </div>
+                            <span className='theme-name'>{theme.name}</span>
                           </div>
-                        )}
-                      </div>
-                      <div className='theme-info'>
-                        <span className='theme-name'>{theme.name}</span>
-                        {localSettings.theme === theme.id && <span className='theme-active-badge'>ACTIVE</span>}
+                        ))}
                       </div>
                     </div>
-                  ))}
-                </div>
-              </div>
 
-              <div className='setting-item'>
-                <label className='section-label'>✨ ANIMATED THEMES</label>
-                <div className='theme-grid'>
-                  {THEMES.filter(t => t.category === 'animated').map(theme => (
-                    <div 
-                      key={theme.id}
-                      className={`theme-card ${localSettings.theme === theme.id ? 'active' : ''}`}
-                      onClick={() => handleChange('theme', theme.id)}
-                    >
-                      <div 
-                        className={`theme-preview theme-preview-animated ${theme.id}`}
-                        style={{ 
-                          backgroundColor: theme.bgColor,
-                          borderColor: localSettings.theme === theme.id ? theme.accentColor : 'transparent'
-                        }}
-                      >
-                        <div className='theme-preview-lines'>
-                          <div className='preview-line' style={{ backgroundColor: theme.accentColor, width: '60%' }}></div>
-                          <div className='preview-line' style={{ backgroundColor: theme.textColor, width: '80%', opacity: 0.3 }}></div>
-                          <div className='preview-line' style={{ backgroundColor: theme.textColor, width: '40%', opacity: 0.3 }}></div>
-                        </div>
-                        <div className='theme-preview-dot' style={{ backgroundColor: theme.accentColor }}></div>
-                        {localSettings.theme === theme.id && (
-                          <div className='theme-check' style={{ backgroundColor: theme.accentColor }}>
-                            <Check size={12} />
+                    <div className='saas-section-group'>
+                      <label className='saas-section-label'>ANIMATED THEMES</label>
+                      <div className='saas-theme-grid'>
+                        {THEMES.filter(t => t.category === 'animated').map(theme => (
+                          <div 
+                            key={theme.id}
+                            className={`saas-theme-card ${localSettings.theme === theme.id ? 'active' : ''}`}
+                            onClick={() => handleChange('theme', theme.id)}
+                          >
+                            <div 
+                              className={`theme-preview theme-preview-animated ${theme.id}`}
+                              style={{ 
+                                backgroundColor: theme.bgColor,
+                                borderColor: localSettings.theme === theme.id ? theme.accentColor : 'rgba(255,255,255,0.05)'
+                              }}
+                            >
+                              <div className='theme-preview-lines'>
+                                <div className='preview-line' style={{ backgroundColor: theme.accentColor, width: '60%' }}></div>
+                                <div className='preview-line' style={{ backgroundColor: theme.textColor, width: '80%', opacity: 0.3 }}></div>
+                              </div>
+                              <div className='theme-preview-dot' style={{ backgroundColor: theme.accentColor }}></div>
+                              {localSettings.theme === theme.id && (
+                                <div className='theme-check' style={{ backgroundColor: theme.accentColor }}>
+                                  <Check size={12} strokeWidth={3} />
+                                </div>
+                              )}
+                            </div>
+                            <span className='theme-name'>{theme.name}</span>
                           </div>
-                        )}
-                      </div>
-                      <div className='theme-info'>
-                        <span className='theme-name'>{theme.name}</span>
-                        {localSettings.theme === theme.id && <span className='theme-active-badge'>ACTIVE</span>}
+                        ))}
                       </div>
                     </div>
-                  ))}
-                </div>
-              </div>
 
-              <div className='setting-item'>
-                <label className='section-label'>🎨 SPECIAL EFFECTS</label>
-                <div className='theme-grid'>
-                  {THEMES.filter(t => t.category === 'special').map(theme => (
-                    <div 
-                      key={theme.id}
-                      className={`theme-card ${localSettings.theme === theme.id ? 'active' : ''}`}
-                      onClick={() => handleChange('theme', theme.id)}
-                    >
-                      <div 
-                        className={`theme-preview theme-preview-special ${theme.id}`}
-                        style={{ 
-                          backgroundColor: theme.bgColor,
-                          borderColor: localSettings.theme === theme.id ? theme.accentColor : 'transparent'
-                        }}
-                      >
-                        <div className='theme-preview-lines'>
-                          <div className='preview-line' style={{ backgroundColor: theme.accentColor, width: '60%' }}></div>
-                          <div className='preview-line' style={{ backgroundColor: theme.textColor, width: '80%', opacity: 0.3 }}></div>
-                          <div className='preview-line' style={{ backgroundColor: theme.textColor, width: '40%', opacity: 0.3 }}></div>
-                        </div>
-                        <div className='theme-preview-dot' style={{ backgroundColor: theme.accentColor }}></div>
-                        {localSettings.theme === theme.id && (
-                          <div className='theme-check' style={{ backgroundColor: theme.accentColor }}>
-                            <Check size={12} />
+                    <div className='saas-section-group'>
+                      <label className='saas-section-label'>SPECIAL EFFECTS</label>
+                      <div className='saas-theme-grid'>
+                        {THEMES.filter(t => t.category === 'special').map(theme => (
+                          <div 
+                            key={theme.id}
+                            className={`saas-theme-card ${localSettings.theme === theme.id ? 'active' : ''}`}
+                            onClick={() => handleChange('theme', theme.id)}
+                          >
+                            <div 
+                              className={`theme-preview theme-preview-special ${theme.id}`}
+                              style={{ 
+                                backgroundColor: theme.bgColor,
+                                borderColor: localSettings.theme === theme.id ? theme.accentColor : 'rgba(255,255,255,0.05)'
+                              }}
+                            >
+                              <div className='theme-preview-lines'>
+                                <div className='preview-line' style={{ backgroundColor: theme.accentColor, width: '60%' }}></div>
+                                <div className='preview-line' style={{ backgroundColor: theme.textColor, width: '80%', opacity: 0.3 }}></div>
+                              </div>
+                              <div className='theme-preview-dot' style={{ backgroundColor: theme.accentColor }}></div>
+                              {localSettings.theme === theme.id && (
+                                <div className='theme-check' style={{ backgroundColor: theme.accentColor }}>
+                                  <Check size={12} strokeWidth={3} />
+                                </div>
+                              )}
+                            </div>
+                            <span className='theme-name'>{theme.name}</span>
                           </div>
-                        )}
-                      </div>
-                      <div className='theme-info'>
-                        <span className='theme-name'>{theme.name}</span>
-                        {localSettings.theme === theme.id && <span className='theme-active-badge'>ACTIVE</span>}
+                        ))}
                       </div>
                     </div>
-                  ))}
-                </div>
+                  </div>
+                )}
+
+                {/* PREFERENCES TAB */}
+                {activeTab === 'preferences' && (
+                  <div className='saas-section'>
+                    <div className='saas-card'>
+                      <label className='saas-label'>User Identifier</label>
+                      <input
+                        id='userName'
+                        type='text'
+                        value={localSettings.userName}
+                        onChange={e => handleChange('userName', e.target.value)}
+                        className='saas-input'
+                        placeholder='Enter your display name'
+                      />
+                    </div>
+
+                    <div className='saas-card'>
+                      <label className='saas-label'>Display Options</label>
+                      <div className='saas-toggle-list'>
+                        {renderToggle('Show Status Bar', localSettings.showStatusBar, val => handleChange('showStatusBar', val))}
+                        {renderToggle('Show Greeting', localSettings.showGreeting, val => handleChange('showGreeting', val))}
+                        {renderToggle('Show Clock', localSettings.showClock, val => handleChange('showClock', val))}
+                      </div>
+                    </div>
+
+                    <div className='saas-card'>
+                      <label className='saas-label'>Clock Format</label>
+                      <div className='saas-segmented-control'>
+                        <button 
+                          className={`saas-segment ${localSettings.clockFormat === '12h' ? 'active' : ''}`}
+                          onClick={() => handleChange('clockFormat', '12h')}
+                        >
+                          12-Hour
+                        </button>
+                        <button 
+                          className={`saas-segment ${localSettings.clockFormat === '24h' ? 'active' : ''}`}
+                          onClick={() => handleChange('clockFormat', '24h')}
+                        >
+                          24-Hour
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className='saas-card'>
+                      <label className='saas-label'>Add New Category</label>
+                      <div className='saas-flex-row'>
+                        <input
+                          type='text'
+                          value={newCategoryName}
+                          onChange={e => setNewCategoryName(e.target.value)}
+                          placeholder='e.g., Development'
+                          className='saas-input'
+                        />
+                        <button className='saas-btn-icon' onClick={handleAddCategory}>
+                          <Plus size={18} />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* ASCII ART TAB */}
+                {activeTab === 'ascii' && (
+                  <div className='saas-section'>
+                    <div className='saas-card'>
+                      <label className='saas-label'>Image to ASCII Converter</label>
+                      <label className='saas-upload-area'>
+                        <Upload size={24} className="saas-upload-icon" />
+                        <span className="saas-upload-text">Click to upload image</span>
+                        <input 
+                          type='file' 
+                          accept='image/*' 
+                          onChange={handleImageUpload}
+                          className='saas-hidden-file'
+                        />
+                      </label>
+                      <div className='saas-upload-options'>
+                        {renderToggle('Invert Colors', isInverted, setIsInverted)}
+                      </div>
+                    </div>
+
+                    <div className='saas-card'>
+                      <label className='saas-label'>Custom ASCII Input</label>
+                      <textarea
+                        className='saas-textarea'
+                        value={localSettings.asciiArt || ''}
+                        onChange={e => handleChange('asciiArt', e.target.value)}
+                        placeholder="Paste your custom ASCII art here..."
+                        spellCheck={false}
+                      />
+                    </div>
+                  </div>
+                )}
               </div>
 
-              <div className='settings-columns'>
-                {/* Left Column - User Settings */}
-                <div className='settings-column'>
-                  <label className='section-label'>USER IDENTIFIER</label>
-                  <input
-                    id='userName'
-                    type='text'
-                    value={localSettings.userName}
-                    onChange={e => handleChange('userName', e.target.value)}
-                    className='setting-input'
-                    placeholder='Your Name'
-                  />
-                </div>
-
-                {/* Right Column - System Preferences */}
-                <div className='settings-column'>
-                  <label className='section-label'>SYSTEM PREFERENCES</label>
-                  <div className='checkbox-group'>
-                    <label className="checkbox-label">
-                      <span>Show Status Bar</span>
-                      <input
-                        type='checkbox'
-                        checked={localSettings.showStatusBar}
-                        onChange={e => handleChange('showStatusBar', e.target.checked)}
-                        className="custom-checkbox"
-                      />
-                    </label>
-                    <label className="checkbox-label">
-                      <span>Show Greeting</span>
-                      <input
-                        type='checkbox'
-                        checked={localSettings.showGreeting}
-                        onChange={e => handleChange('showGreeting', e.target.checked)}
-                        className="custom-checkbox"
-                      />
-                    </label>
-                    <label className="checkbox-label">
-                      <span>Show Clock</span>
-                      <input
-                        type='checkbox'
-                        checked={localSettings.showClock}
-                        onChange={e => handleChange('showClock', e.target.checked)}
-                        className="custom-checkbox"
-                      />
-                    </label>
-                  </div>
-                  
-                  <label className='section-label' style={{ marginTop: '12px' }}>CLOCK FORMAT</label>
-                  <div className='clock-format-selector'>
-                    <label className={`format-option ${localSettings.clockFormat === '12h' ? 'active' : ''}`}>
-                      <input
-                        type='radio'
-                        name='clockFormat'
-                        value='12h'
-                        checked={localSettings.clockFormat === '12h'}
-                        onChange={() => handleChange('clockFormat', '12h')}
-                      />
-                      <span>12 Hour</span>
-                    </label>
-                    <label className={`format-option ${localSettings.clockFormat === '24h' ? 'active' : ''}`}>
-                      <input
-                        type='radio'
-                        name='clockFormat'
-                        value='24h'
-                        checked={localSettings.clockFormat === '24h'}
-                        onChange={() => handleChange('clockFormat', '24h')}
-                      />
-                      <span>24 Hour</span>
-                    </label>
-                  </div>
-                </div>
+              {/* Action Footer */}
+              <div className='saas-footer'>
+                <button className='saas-btn-secondary' onClick={() => setIsOpen(false)}>
+                  Cancel
+                </button>
+                <button className='saas-btn-primary' onClick={handleSave}>
+                  <Save size={16} />
+                  Save Changes
+                </button>
               </div>
-
-              {/* ASCII Art Section - Collapsible */}
-              <details className='ascii-section'>
-                <summary className='section-label'>ASCII ART SETTINGS</summary>
-                <div className='ascii-content'>
-                  <div className='ascii-controls'>
-                    <label className='file-upload-btn'>
-                      <Upload size={16} />
-                      <span>Upload Image</span>
-                      <input 
-                        type='file' 
-                        accept='image/*' 
-                        onChange={handleImageUpload}
-                        className='hidden-input'
-                      />
-                    </label>
-                    <label className='checkbox-label'>
-                      <input
-                        type='checkbox'
-                        checked={isInverted}
-                        onChange={e => setIsInverted(e.target.checked)}
-                        className="custom-checkbox"
-                      />
-                      <span>Invert</span>
-                    </label>
-                  </div>
-                  
-                  <div className='ascii-edit-container'>
-                    <label className="sub-label">Edit / Paste Custom ASCII:</label>
-                    <textarea
-                      className='ascii-editor'
-                      value={localSettings.asciiArt || ''}
-                      onChange={e => handleChange('asciiArt', e.target.value)}
-                      placeholder="Paste your ASCII art here..."
-                      spellCheck={false}
-                    />
-                  </div>
-                </div>
-              </details>
-
-              <div className='setting-divider'></div>
-
-              <div className='setting-item'>
-                <label className='section-label'>Add New Category</label>
-                <div className='add-category-form'>
-                  <input
-                    type='text'
-                    value={newCategoryName}
-                    onChange={e => setNewCategoryName(e.target.value)}
-                    placeholder='Category name'
-                    className='setting-input'
-                  />
-                  <button className='add-category-settings-btn' onClick={handleAddCategory}>
-                    <Plus size={18} />
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <div className='settings-footer'>
-              <button className='apply-btn primary' onClick={handleSave}>
-                <Save size={16} />
-                Save & Apply
-              </button>
-              <button className='apply-btn secondary' onClick={() => setIsOpen(false)}>
-                Cancel
-              </button>
             </div>
           </div>
         </div>
