@@ -1,3 +1,8 @@
+export interface UrlAlias {
+  key: string   // e.g. "gh"
+  url: string   // e.g. "https://github.com/raj"
+}
+
 export interface Bookmark {
   id: string
   title: string
@@ -38,4 +43,11 @@ export interface Settings {
   theme: ThemeType
   clockFormat: '12h' | '24h'
   asciiArt?: string
+  // Background
+  bgDim: number        // 0–90
+  bgBlur: number       // 0–10
+  // Widgets
+  showDailyGoal: boolean
+  showGitHubStreak: boolean
+  githubUsername: string
 }

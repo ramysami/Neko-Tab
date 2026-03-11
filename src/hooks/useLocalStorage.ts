@@ -48,6 +48,11 @@ const DEFAULT_SETTINGS: Settings = {
   showStatusBar: true,
   theme: 'carbon',
   clockFormat: '24h',
+  bgDim: 40,
+  bgBlur: 0,
+  showDailyGoal: true,
+  showGitHubStreak: false,
+  githubUsername: '',
   asciiArt: `
   ⠀⠀⠀⠀⢠⡶⠚⢷⣤⡀⠀⠀⠀⠀⠀⣲⡶⠛⠻⣆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⢠⡿⠁⠀⠀⠙⣷⣄⠀⢀⣴⡟⠁⠀⠀⢷⢹⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀
