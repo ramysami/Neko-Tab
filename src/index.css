@@ -3477,3 +3477,124 @@ input[type="checkbox"]:checked::after {
   from { opacity: 0; transform: translateY(-8px); }
   to   { opacity: 1; transform: translateY(0); }
 }
+
+/* ==================== COMMAND PALETTE TRIGGER BAR ==================== */
+.cp-trigger {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 520px;
+  padding: 10px 16px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border, #353A3E);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+  user-select: none;
+}
+
+.cp-trigger:hover {
+  border-color: var(--accent);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.cp-trigger-icon {
+  color: var(--text-secondary);
+  opacity: 0.45;
+  flex-shrink: 0;
+}
+
+.cp-trigger-text {
+  flex: 1;
+  font-size: 13px;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--text-secondary);
+  opacity: 0.35;
+}
+
+.cp-trigger-hint {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.cp-trigger-hint kbd {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--text-secondary);
+  opacity: 0.4;
+  border: 1px solid var(--border, #353A3E);
+  border-radius: 3px;
+  padding: 2px 5px;
+  background: rgba(255,255,255,0.03);
+}
+
+.cp-trigger-sep {
+  font-size: 10px;
+  color: var(--text-secondary);
+  opacity: 0.25;
+}
+
+/* engine switcher */
+.cp-engines {
+  display: flex;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.cp-engine-btn {
+  background: none;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  color: var(--text-secondary);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  padding: 2px 5px;
+  cursor: pointer;
+  opacity: 0.35;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.12s;
+}
+
+.cp-engine-btn:hover {
+  opacity: 0.7;
+  border-color: var(--border);
+}
+
+.cp-engine-btn.active {
+  opacity: 1;
+  color: var(--accent);
+  border-color: var(--accent);
+  background: rgba(255,255,255,0.04);
+}
+
+/* hint row at bottom of empty palette */
+.cp-hint-row {
+  display: flex;
+  gap: 20px;
+  padding: 10px 16px;
+  font-size: 11px;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--text-secondary);
+  opacity: 0.3;
+  border-top: 1px solid var(--border, #353A3E);
+}
+
+/* search result type accent */
+.cp-item-search .cp-item-icon { color: var(--accent); opacity: 1; }
+.cp-item-search .cp-item-label { color: var(--text-primary); }
+.cp-item-url .cp-item-icon { color: #60a5fa; opacity: 1; }
+
+/* glass mode — trigger bar */
+.has-bg .cp-trigger {
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  border-color: rgba(255,255,255,0.12);
+}
+
+.has-bg .cp-trigger:hover {
+  border-color: var(--accent);
+}

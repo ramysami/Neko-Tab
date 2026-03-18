@@ -1,5 +1,3 @@
-# Claude Code Configuration
-
 ## Core Principles
 When working with this codebase, prioritize readability over cleverness. Ask clarifying questions before making architectural changes.
 

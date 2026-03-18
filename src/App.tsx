@@ -1,7 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { useBookmarks, useSettings, useLocalStorage } from './hooks/useLocalStorage'
 import { Bookmarks } from './components/Bookmarks'
-import { SearchBar } from './components/SearchBar'
 import { Clock } from './components/Clock'
 import { PixelArt } from './components/PixelArt'
 import { SettingsPanel } from './components/SettingsPanel'
@@ -51,8 +50,6 @@ function App() {
     editBookmark,
   } = useBookmarks()
 
-  const handleSearch = () => {}
-
   const appRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -87,7 +84,6 @@ function App() {
           onAddCategory={addCategory}
         />
         <Scratchpad />
-        <CommandPalette />
         <ShortcutHelp />
 
         {/* Center Section */}
@@ -100,7 +96,7 @@ function App() {
             />
           )}
           {settings.showDailyGoal && <DailyGoal />}
-          <SearchBar onSearch={handleSearch} />
+          <CommandPalette />
         </div>
 
         {/* Content Section */}

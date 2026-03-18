@@ -1,120 +1,142 @@
 # Neko-Tab
 
-A minimalist, highly customizable terminal-style new tab page for your browser. Built with React, TypeScript, and Vite. Designed for aesthetics, focus, and productivity.
+A minimalist, terminal-style new tab page for your browser. Built with React, TypeScript, and Vite.
+Designed around keyboard-first navigation, a command palette, and a clean aesthetic with zero clutter.
 
 ![Preview](screenshots/image.png)
 
-## ✨ Features
+---
 
-### 🎨 Extensive Theming
+## Features
 
-Choose from over 20+ professionally crafted themes:
+### Command Palette
 
-- **Color Themes**: Carbon, Paper, Nord, Solarized, Matrix, Dracula, Monokai, Gruvbox, Tokyo Night, Catppuccin, One Dark, Rosé Pine, Everforest.
-- **Animated Themes**: Cyberpunk (neon glow), Aurora (shifting gradients), Synthwave, Vaporwave.
-- **Special Effects**: Retro CRT (scanlines), Sunset, Ocean, Midnight.
+Press `Ctrl+K` or `/` to open the unified command palette. It replaces the traditional search bar entirely.
 
-### 🖥️ Modern Terminal UI
+- **Smart routing** — type a URL (`github.com/raj`) and it navigates directly; type a keyword and it fuzzy-searches your bookmarks and aliases; type anything else and it falls through to web search
+- **URL aliases** — define short keys like `gh → https://github.com/raj` that appear first in results
+- **Engine switcher** — switch between Google, DuckDuckGo, GitHub, and YouTube inside the palette
+- **Fuzzy search** — matches bookmarks by title, URL, or category
 
-- **Centered Command Center**: Prominent clock and search bar for quick access.
-- **Side-by-Side Layout**: ASCII art display matched with your organized bookmarks.
-- **Smart Status Bar**: Real-time monitoring of:
-  - Memory Usage (Heap size)
-  - Network Connectivity Status
-- **ASCII Art**: Customizable retro visuals.
+### Theming
 
-### 🚀 Productivity Tools
+20+ professionally crafted themes across three categories:
 
-- **Focus Mode**: Built-in Pomodoro-style timer (25 minutes) with:
-  - Timer persistence across new tabs — resume where you left off
-  - **Website blocking** — block distracting sites while the timer runs
-  - Preset sites: Facebook, Instagram, TikTok, Twitter/X, LinkedIn, Reddit, YouTube, Netflix, Twitch
-  - **Custom site blocking** — add any domain you want to block
-  - Sites automatically unblock when timer is paused, reset, or completed
-  - Desktop notifications when session completes
-- **Quick Links**:
-  - Fully customizable bookmark categories.
-  - "Edit Mode" for easy management of links.
-- **Keyboard Shortcuts**:
-  - `CMD + K` / `CTRL + K` to focus search.
-  - `CTRL + F` to toggle Focus Mode.
-  - `ESC` to exit Focus Mode.
+- **Color**: Carbon, Paper, Nord, Solarized, Matrix, Dracula, Monokai, Gruvbox, Tokyo Night, Catppuccin, One Dark, Rosé Pine, Everforest
+- **Animated**: Cyberpunk, Aurora, Synthwave, Vaporwave
+- **Special Effects**: Retro CRT, Sunset, Ocean, Midnight
 
-## 🛠️ Installation & Development
+Custom background image support with adjustable dim and blur overlay.
 
-### Prerequisites
+### Scratchpad
 
-- Node.js (v18 or higher recommended)
-- npm or yarn
+Open with `Ctrl+\`` — a slide-in drawer with three tabs:
 
-### Steps
+- **Notes** — freeform textarea with line/char counter
+- **Checklist** — keyboard-driven task list (`Enter` for new item, `Backspace` on empty deletes); checked items auto-clear on close
+- **Journal** — daily log keyed by date; past days accessible via nav buttons
 
-1. **Clone the repository**
+### Work Timer
 
-   ```bash
-   git clone <repository-url>
-   cd Neko-Tab
-   ```
+Lives in the status bar. `Ctrl+Shift+T` or click to start/stop. Shows elapsed time in `hh:mm:ss`.
+Persists across tab reloads — closing a tab mid-session doesn't lose your time.
 
-2. **Install dependencies**
+### Daily Goal
 
-   ```bash
-   npm install
-   ```
+A single focus line between the clock and command palette. Click to edit, resets at midnight.
 
-3. **Run Development Server**
+### Focus Mode
 
-   ```bash
-   npm run dev
-   ```
+Pomodoro-style 25-minute timer with website blocking:
 
-4. **Build for Production**
+- Preset distractions: Facebook, Instagram, TikTok, Twitter/X, Reddit, YouTube, Netflix, Twitch
+- Add custom domains to block
+- Sites unblock automatically when timer ends or is reset
+- Desktop notification on completion
 
-   ```bash
-   npm run build
-   ```
+### Status Bar
 
-## 📝 Configuration
+- **HEAP** — JS heap memory usage with a live bar (Chrome only)
+- **PING** — real latency via `1.1.1.1` (not just `navigator.onLine`)
+- **GitHub Streak** — contribution streak with 14-day sparkline (optional, no auth needed)
+- **Work Timer** — always visible when running
 
-Click the **Settings (Gear)** icon in the top-left or use the integrated settings panel to:
+### Keyboard Shortcuts
 
-- Change Themes (Live Preview available).
-- Update User Name.
-- Toggle Status Bar.
-- **Clock Format**: Switch between 12-hour and 24-hour display.
-- Manage Greetings visibility.
-- Upload custom images for ASCII conversion.
+Press `?` anywhere to show the full shortcut cheatsheet.
 
-## 🔒 Permissions
-
-The extension requires the following permissions:
-
-- `topSites` — Display frequently visited sites
-- `storage` — Persist settings and focus mode state
-- `declarativeNetRequest` — Block distracting websites during focus sessions
-- `host_permissions: <all_urls>` — Required for website blocking to work on any site
-
-## Privacy
-
-Neko-Tab does not collect, transmit, or store any personal data.
-All settings and preferences are saved locally in your browser using
-the built-in `storage` API. No analytics, no tracking, no external servers.
-```
-
-That URL then becomes your official privacy policy. Simple and legitimate.
+| Shortcut | Action |
+|---|---|
+| `Ctrl+K` or `/` | Open command palette |
+| `Ctrl+\`` | Toggle scratchpad |
+| `Ctrl+Shift+T` | Start / stop work timer |
+| `?` | Show shortcut help |
+| `Escape` | Close any open panel |
+| `↑ / ↓` | Navigate palette results |
+| `Enter` | Open selected result |
 
 ---
 
-**Notes to Reviewer** — paste this:
-```
-This is a new tab page extension built with React + TypeScript.
 
-- All data is stored locally via browser storage API
-- The declarativeNetRequest permission is used solely to block 
-  user-specified sites during Pomodoro focus sessions
-- The innerHTML warnings in the validator are from React's 
-  internal rendering engine, not custom code
-- No external network requests are made except optional user-initiated searches
+## Installation
+
+### Development
+
+```bash
+git clone https://github.com/your-username/neko-tab
+cd neko-tab
+npm install
+npm run dev
+```
+
+### Load as a browser extension
+
+```bash
+npm run build
+```
+
+Then in Chrome/Edge: **Extensions → Load unpacked → select the `dist/` folder**.
+
+---
+
+## Settings
+
+Open the gear icon (top-left) to access:
+
+- **Appearance** — theme picker with live preview
+- **Preferences** — name, clock format, display toggles
+- **ASCII Art** — image-to-ASCII converter or paste custom art
+- **Widgets** — background image, daily goal, GitHub streak
+- **Aliases** — define short URL aliases for the command palette
+
+---
+
+## Permissions
+
+| Permission | Why |
+|---|---|
+| `storage` | Persist settings, bookmarks, scratchpad, aliases, timer state |
+| `declarativeNetRequest` | Block sites during Focus Mode sessions |
+| `host_permissions: <all_urls>` | Required for site blocking to apply on any domain |
+
+---
+
+## Privacy
+
+No data leaves your browser. Everything is stored locally via the browser `storage` API.
+No analytics, no tracking, no external servers — except searches you explicitly initiate.
+
+---
+
+## Tech Stack
+
+- React + TypeScript
+- Vite
+- Tailwind CSS
+- Lucide React (icons)
+- JetBrains Mono (font)
+
+---
 
 ## License
 
