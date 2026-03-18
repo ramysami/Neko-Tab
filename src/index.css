@@ -767,13 +767,15 @@ body {
 /* Categories Grid - horizontal layout */
 .categories-grid {
   display: flex;
-  gap: 48px; /* Increased gap for cleaner look */
-  flex-wrap: wrap;
+  gap: 32px;
+  flex-wrap: nowrap;
   justify-content: flex-start;
+  overflow-x: auto;
 }
 
 .category-column {
-  min-width: 120px;
+  min-width: 100px;
+  flex-shrink: 0;
 }
 
 .add-category-column {
@@ -3142,6 +3144,29 @@ input[type="checkbox"]:checked::after {
   justify-content: center;
 }
 
+/* Theme vars scoped to cp-panel so portal doesn't need .app parent */
+.cp-panel.carbon    { --bg-primary:#222526; --bg-tertiary:#2D3134; --text-primary:#E0E0E0; --text-secondary:#BFBFBF; --accent:#3dd2cc; --border:#353A3E; }
+.cp-panel.paper     { --bg-primary:#F5F5F5; --bg-tertiary:#E8E8E8; --text-primary:#222526; --text-secondary:#555; --accent:#444; --border:#CCC; }
+.cp-panel.nord      { --bg-primary:#2E3440; --bg-tertiary:#3B4252; --text-primary:#ECEFF4; --text-secondary:#D8DEE9; --accent:#88C0D0; --border:#4C566A; }
+.cp-panel.solarized { --bg-primary:#002B36; --bg-tertiary:#094959; --text-primary:#93A1A1; --text-secondary:#839496; --accent:#2AA198; --border:#586E75; }
+.cp-panel.matrix    { --bg-primary:#0D0D0D; --bg-tertiary:#1A1A1A; --text-primary:#00FF41; --text-secondary:#00CC33; --accent:#00FF41; --border:#003300; }
+.cp-panel.dracula   { --bg-primary:#282A36; --bg-tertiary:#343746; --text-primary:#F8F8F2; --text-secondary:#6272A4; --accent:#BD93F9; --border:#44475A; }
+.cp-panel.monokai   { --bg-primary:#272822; --bg-tertiary:#3E3D32; --text-primary:#F8F8F2; --text-secondary:#75715E; --accent:#F92672; --border:#49483E; }
+.cp-panel.gruvbox   { --bg-primary:#282828; --bg-tertiary:#3C3836; --text-primary:#EBDBB2; --text-secondary:#A89984; --accent:#FE8019; --border:#504945; }
+.cp-panel.tokyo-night { --bg-primary:#1A1B26; --bg-tertiary:#24283B; --text-primary:#A9B1D6; --text-secondary:#565F89; --accent:#7AA2F7; --border:#3B4261; }
+.cp-panel.catppuccin  { --bg-primary:#1E1E2E; --bg-tertiary:#313244; --text-primary:#CDD6F4; --text-secondary:#A6ADC8; --accent:#F5C2E7; --border:#45475A; }
+.cp-panel.one-dark    { --bg-primary:#282C34; --bg-tertiary:#2C323C; --text-primary:#ABB2BF; --text-secondary:#5C6370; --accent:#61AFEF; --border:#3E4452; }
+.cp-panel.rose-pine   { --bg-primary:#191724; --bg-tertiary:#26233A; --text-primary:#E0DEF4; --text-secondary:#908CAA; --accent:#EBBCBA; --border:#403D52; }
+.cp-panel.everforest  { --bg-primary:#2D353B; --bg-tertiary:#343F44; --text-primary:#D3C6AA; --text-secondary:#859289; --accent:#A7C080; --border:#414B50; }
+.cp-panel.cyberpunk   { --bg-primary:#0a0a0f; --bg-tertiary:#15151f; --text-primary:#00f0ff; --text-secondary:#ff00ff; --accent:#ff00ff; --border:#2a2a3a; }
+.cp-panel.aurora      { --bg-primary:#0f0c29; --bg-tertiary:#1a1540; --text-primary:#fff; --text-secondary:#c4b5fd; --accent:#a855f7; --border:#2a2555; }
+.cp-panel.synthwave   { --bg-primary:#1a1a2e; --bg-tertiary:#252545; --text-primary:#eaeaea; --text-secondary:#f38181; --accent:#e94560; --border:#3a3a5a; }
+.cp-panel.vaporwave   { --bg-primary:#1a0a2e; --bg-tertiary:#2a1548; --text-primary:#ff71ce; --text-secondary:#01cdfe; --accent:#01cdfe; --border:#3a2058; }
+.cp-panel.retro-terminal { --bg-primary:#0a0a0a; --bg-tertiary:#151515; --text-primary:#33ff33; --text-secondary:#22aa22; --accent:#33ff33; --border:#1a3a1a; }
+.cp-panel.sunset      { --bg-primary:#1a1423; --bg-tertiary:#251d30; --text-primary:#ffecd2; --text-secondary:#fcb69f; --accent:#fcb69f; --border:#3a2f45; }
+.cp-panel.ocean       { --bg-primary:#0c1821; --bg-tertiary:#142533; --text-primary:#ccd6f6; --text-secondary:#8892b0; --accent:#64ffda; --border:#233554; }
+.cp-panel.midnight    { --bg-primary:#020617; --bg-tertiary:#0f172a; --text-primary:#e2e8f0; --text-secondary:#94a3b8; --accent:#6366f1; --border:#1e293b; }
+
 .cp-panel {
   width: 580px;
   max-width: 95vw;
@@ -3151,14 +3176,8 @@ input[type="checkbox"]:checked::after {
   overflow: hidden;
   box-shadow: 0 8px 32px rgba(0,0,0,0.35);
   animation: slideIn 0.15s cubic-bezier(0.16, 1, 0.3, 1);
-  /* Reset .app layout overrides */
-  min-height: unset !important;
-  display: block !important;
-  flex-direction: unset !important;
-  align-items: unset !important;
-  justify-content: unset !important;
-  padding: 0 !important;
-  padding-bottom: 0 !important;
+  color: var(--text-primary);
+  font-family: 'JetBrains Mono', monospace;
 }
 
 .cp-input-row {

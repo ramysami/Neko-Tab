@@ -155,7 +155,7 @@ export function CommandPalette() {
       {/* Palette overlay — portaled to body so it escapes any layout constraints */}
       {isOpen && createPortal(
         <div className="cp-overlay" onClick={() => setIsOpen(false)}>
-          <div className={`cp-panel app ${themeClass}`} onClick={e => e.stopPropagation()}>
+          <div className={`cp-panel ${themeClass}`} onClick={e => e.stopPropagation()}>
             <div className="cp-input-row">
               <Search size={14} className="cp-search-icon" />
               <input
