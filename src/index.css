@@ -3138,9 +3138,8 @@ input[type="checkbox"]:checked::after {
   backdrop-filter: blur(6px);
   z-index: 2000;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
-  padding-top: 12vh;
 }
 
 .cp-panel {
