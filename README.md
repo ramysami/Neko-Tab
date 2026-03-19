@@ -138,6 +138,16 @@ No analytics, no tracking, no external servers — except searches you explicitl
 
 ---
 
+## Support
+
+If Neko-Tab saves you time or you just like what it does, a small contribution goes a long way.
+
+**eSewa (Nepal):** `9823211188`
+
+No pressure — the project is and will always be free and open source.
+
+---
+
 ## License
 
 MIT
