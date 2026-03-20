@@ -1,0 +1,65 @@
+name: Create Chrome Extension Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # Required to push the commit and create the release
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          ref: main # Ensure we are on the branch, not a detached head
+
+      - name: Auto-Increment and Commit
+        run: |
+          # 1. Update manifest.json in public folder
+          NEW_VERSION=${GITHUB_REF_NAME#v}
+          jq --arg ver "$NEW_VERSION" '.version = $ver' public/manifest.json > tmp.json && mv tmp.json public/manifest.json
+          
+          # 2. Configure Git
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # 3. Commit and Push back to main
+          git add public/manifest.json
+          git commit -m "chore: bump version to $NEW_VERSION [skip ci]"
+          git push origin main
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Build Project
+        run: npm run build
+
+      - name: Prepare Filename
+        run: |
+          RAW_NAME=$(jq -r '.name' public/manifest.json)
+          CLEAN_NAME="${RAW_NAME// /_}"
+          echo "FILENAME=${CLEAN_NAME}_v${GITHUB_REF_NAME#v}.zip" >> $GITHUB_ENV
+
+      - name: Create Zip of dist/
+        run: |
+          # Zip the contents of the dist folder
+          cd dist && zip -r "../${{ env.FILENAME }}" .
+
+      - name: Create GitHub Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create ${{ github.ref_name }} "${{ env.FILENAME }}" \
+            --title "Release ${{ github.ref_name }}" \
+            --generate-notes
+
