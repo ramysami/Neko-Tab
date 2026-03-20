@@ -616,7 +616,7 @@ input, button, textarea, select {
 }
 
 .ascii-display {
-  font-family: var(--font-mono), monospace;
+  font-family: 'JetBrains Mono', monospace;
   font-size: 8px;
   line-height: 8px;
   white-space: pre;
