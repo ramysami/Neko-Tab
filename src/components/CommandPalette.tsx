@@ -10,7 +10,13 @@ interface Result {
   sub: string
   url?: string
   icon: string
-  type: 'alias' | 'bookmark' | 'search' | 'url'
+  type: 'alias' | 'bookmark' | 'search' | 'url' | 'recent'
+}
+
+interface RecentItem {
+  label: string
+  url: string
+  ts: number
 }
 
 const SEARCH_ENGINES: Record<string, { name: string; url: string }> = {
@@ -44,7 +50,15 @@ export function CommandPalette() {
   const [engine, setEngine] = useState('google')
   const { categories } = useBookmarks()
   const [aliases] = useLocalStorage<UrlAlias[]>('neko-aliases', [])
+  const [recent, setRecent] = useLocalStorage<RecentItem[]>('neko-recent', [])
   const inputRef = useRef<HTMLInputElement>(null)
+
+  const addRecent = (label: string, url: string) => {
+    setRecent(prev => {
+      const filtered = prev.filter(r => r.url !== url)
+      return [{ label, url, ts: Date.now() }, ...filtered].slice(0, 10)
+    })
+  }
 
   // Mirror theme class onto the portaled panel so CSS vars resolve correctly
   const themeClass = useMemo(() => {
@@ -80,6 +94,14 @@ export function CommandPalette() {
 
   const results = useMemo<Result[]>(() => {
     const out: Result[] = []
+
+    // When empty — show recent first
+    if (!query.trim()) {
+      for (const r of recent) {
+        out.push({ id: `recent-${r.url}`, label: r.label, sub: r.url, url: r.url, icon: '↺', type: 'recent' })
+      }
+      return out
+    }
 
     // Exact URL typed
     if (isUrl(query)) {
@@ -121,7 +143,10 @@ export function CommandPalette() {
   useEffect(() => { setSelected(0) }, [query])
 
   const launch = (r: Result) => {
-    if (r.url) window.location.href = r.url
+    if (r.url) {
+      addRecent(r.label, r.url)
+      window.location.href = r.url
+    }
     setIsOpen(false)
     setQuery('')
   }
@@ -208,7 +233,10 @@ export function CommandPalette() {
               <div className="cp-hint-row">
                 <span>↑↓ navigate</span>
                 <span>↵ open</span>
-                <span>esc close</span>
+                {recent.length > 0
+                  ? <button className="cp-clear-btn" onClick={e => { e.stopPropagation(); setRecent([]) }}>clear history</button>
+                  : <span>esc close</span>
+                }
               </div>
             )}
           </div>

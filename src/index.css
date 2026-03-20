@@ -3628,3 +3628,21 @@ input[type="checkbox"]:checked::after {
 .has-bg .cp-trigger:hover {
   border-color: var(--accent);
 }
+
+/* recent items */
+.cp-item-recent .cp-item-icon { color: var(--text-secondary); opacity: 0.5; }
+.cp-item-recent .cp-item-label { opacity: 0.8; }
+
+.cp-clear-btn {
+  background: none;
+  border: none;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--text-secondary);
+  opacity: 0.4;
+  cursor: pointer;
+  padding: 0;
+  margin-left: auto;
+  transition: opacity 0.15s;
+}
+.cp-clear-btn:hover { opacity: 1; color: #f87171; }
