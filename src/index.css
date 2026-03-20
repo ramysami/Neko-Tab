@@ -1,5 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Cascadia+Code:wght@400;700&family=Fira+Code:wght@400;700&family=IBM+Plex+Mono:wght@400;700&family=Inconsolata:wght@400;700&family=JetBrains+Mono:wght@400;700&family=Source+Code+Pro:wght@400;700&display=swap');
+@import url('https://cdn.jsdelivr.net/npm/hack-font@3/build/web/hack.css');
+
 /* Color Palette from reference */
 :root {
+  --font-mono: 'JetBrains Mono';
   /* Dark colors */
   --onyx: #222526;
   --graphite: #353A3E;
@@ -34,7 +38,7 @@
 }
 
 body {
-  font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+  font-family: var(--font-mono), 'Fira Code', 'Consolas', monospace;
   font-size: 16px;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
@@ -42,8 +46,13 @@ body {
   background: transparent;
 }
 
+input, button, textarea, select {
+  font-family: inherit;
+}
+
 /* Theme styles */
 .app {
+  font-family: var(--font-mono), 'Fira Code', 'Consolas', monospace;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -607,7 +616,7 @@ body {
 }
 
 .ascii-display {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono), monospace;
   font-size: 8px;
   line-height: 8px;
   white-space: pre;
@@ -1302,7 +1311,7 @@ body {
   border: 1px solid #2D3134;
   border-radius: 6px;
   color: #E0E0E0;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono), monospace;
   font-size: 9px;
   padding: 10px;
   resize: vertical;
@@ -1461,7 +1470,7 @@ body {
   background: #141617;
   border: 1px solid var(--border-color);
   color: var(--platinum);
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono), monospace;
   font-size: 10px;
   padding: 10px;
   resize: vertical;
@@ -1715,7 +1724,7 @@ input[type="checkbox"]:checked::after {
   left: 0;
   right: 0;
   z-index: 100;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono), monospace;
   background: var(--bg-secondary, rgba(0,0,0,0.3));
   border-top: 1px solid var(--border, rgba(255,255,255,0.1));
   padding: 8px 32px;
@@ -1875,7 +1884,7 @@ input[type="checkbox"]:checked::after {
 
 .focus-timer {
   font-size: 8rem;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono), monospace;
   font-weight: 300;
   line-height: 1;
   color: #fff;
@@ -2723,7 +2732,7 @@ input[type="checkbox"]:checked::after {
   align-items: center;
   gap: 8px;
   cursor: text;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono), monospace;
   font-size: 14px;
   min-height: 24px;
   padding: 4px 0;
@@ -2825,7 +2834,7 @@ input[type="checkbox"]:checked::after {
 .scratchpad-title {
   font-size: 13px;
   color: var(--accent);
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono), monospace;
   letter-spacing: 0.5px;
 }
 
@@ -2836,7 +2845,7 @@ input[type="checkbox"]:checked::after {
   font-size: 11px;
   color: var(--text-secondary);
   opacity: 0.6;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono), monospace;
 }
 
 .scratchpad-close {
@@ -2859,7 +2868,7 @@ input[type="checkbox"]:checked::after {
   background: transparent;
   border: none;
   color: var(--text-primary);
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono), monospace;
   font-size: 13px;
   line-height: 1.7;
   padding: 20px;
@@ -3029,7 +3038,7 @@ input[type="checkbox"]:checked::after {
   background: none;
   border: none;
   color: var(--text-secondary);
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono), monospace;
   font-size: 11px;
   padding: 4px 10px;
   cursor: pointer;
@@ -3096,7 +3105,7 @@ input[type="checkbox"]:checked::after {
   background: transparent;
   border: none;
   color: var(--text-primary);
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono), monospace;
   font-size: 13px;
   outline: none;
   padding: 2px 0;
@@ -3120,7 +3129,7 @@ input[type="checkbox"]:checked::after {
   background: none;
   border: none;
   color: var(--text-secondary);
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono), monospace;
   font-size: 11px;
   padding: 4px 4px;
   cursor: pointer;
@@ -3179,7 +3188,7 @@ input[type="checkbox"]:checked::after {
   box-shadow: 0 8px 32px rgba(0,0,0,0.35);
   animation: slideIn 0.15s cubic-bezier(0.16, 1, 0.3, 1);
   color: var(--text-primary);
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono), monospace;
 }
 
 .cp-input-row {
@@ -3197,7 +3206,7 @@ input[type="checkbox"]:checked::after {
   background: transparent;
   border: none;
   color: var(--text-primary);
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono), monospace;
   font-size: 14px;
   outline: none;
   caret-color: var(--accent);
@@ -3212,7 +3221,7 @@ input[type="checkbox"]:checked::after {
   border: 1px solid var(--border);
   padding: 2px 6px;
   border-radius: 3px;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono), monospace;
 }
 
 .cp-results { max-height: 360px; overflow-y: auto; }
@@ -3270,7 +3279,7 @@ input[type="checkbox"]:checked::after {
   color: var(--text-secondary);
   opacity: 0.4;
   text-align: center;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono), monospace;
 }
 
 /* ==================== WORK TIMER ==================== */
@@ -3342,7 +3351,7 @@ input[type="checkbox"]:checked::after {
 .sh-title {
   font-size: 13px;
   color: var(--accent);
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono), monospace;
 }
 
 .sh-close {
@@ -3367,7 +3376,7 @@ input[type="checkbox"]:checked::after {
 }
 
 .sh-kbd {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono), monospace;
   font-size: 11px;
   color: var(--accent);
   background: rgba(255,255,255,0.05);
@@ -3393,7 +3402,7 @@ input[type="checkbox"]:checked::after {
   color: var(--text-secondary);
   opacity: 0.4;
   text-align: center;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono), monospace;
 }
 
 .sh-footer .sh-kbd {
@@ -3419,7 +3428,7 @@ input[type="checkbox"]:checked::after {
   background: rgba(255,255,255,0.03);
   border-radius: 4px;
   font-size: 12px;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono), monospace;
 }
 
 .alias-key {
@@ -3473,7 +3482,7 @@ input[type="checkbox"]:checked::after {
 .sp-day-btn {
   background: none;
   border: none;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono), monospace;
   font-size: 11px;
   color: var(--text-secondary);
   opacity: 0.45;
@@ -3498,7 +3507,7 @@ input[type="checkbox"]:checked::after {
   opacity: 0.4;
   text-transform: uppercase;
   letter-spacing: 1px;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono), monospace;
 }
 
 @keyframes slideIn {
@@ -3536,7 +3545,7 @@ input[type="checkbox"]:checked::after {
 .cp-trigger-text {
   flex: 1;
   font-size: 13px;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono), monospace;
   color: var(--text-secondary);
   opacity: 0.35;
   overflow: hidden;
@@ -3552,7 +3561,7 @@ input[type="checkbox"]:checked::after {
 }
 
 .cp-trigger-hint kbd {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono), monospace;
   font-size: 10px;
   color: var(--text-secondary);
   opacity: 0.4;
@@ -3580,7 +3589,7 @@ input[type="checkbox"]:checked::after {
   border: 1px solid transparent;
   border-radius: 3px;
   color: var(--text-secondary);
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono), monospace;
   font-size: 10px;
   padding: 2px 5px;
   cursor: pointer;
@@ -3608,7 +3617,7 @@ input[type="checkbox"]:checked::after {
   gap: 20px;
   padding: 10px 16px;
   font-size: 11px;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono), monospace;
   color: var(--text-secondary);
   opacity: 0.4;
   border-top: 1px solid var(--border);
@@ -3636,7 +3645,7 @@ input[type="checkbox"]:checked::after {
 .cp-clear-btn {
   background: none;
   border: none;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono), monospace;
   font-size: 11px;
   color: var(--text-secondary);
   opacity: 0.4;

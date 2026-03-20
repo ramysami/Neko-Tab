@@ -53,6 +53,7 @@ const DEFAULT_SETTINGS: Settings = {
   showDailyGoal: true,
   showGitHubStreak: false,
   githubUsername: '',
+  font: 'JetBrains Mono',
   asciiArt: `
   ⠀⠀⠀⠀⢠⡶⠚⢷⣤⡀⠀⠀⠀⠀⠀⣲⡶⠛⠻⣆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⢠⡿⠁⠀⠀⠙⣷⣄⠀⢀⣴⡟⠁⠀⠀⢷⢹⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀
@@ -80,7 +81,17 @@ export function useLocalStorage<T>(key: string, defaultValue: T): [T, (value: T 
   const [value, setValue] = useState<T>(() => {
     try {
       const stored = localStorage.getItem(key)
-      return stored ? JSON.parse(stored) : defaultValue
+      if (!stored) return defaultValue
+      
+      const parsed = JSON.parse(stored)
+      // If it's a plain object (not an array), merge with default value to ensure new properties exist
+      if (
+        typeof parsed === 'object' && parsed !== null && !Array.isArray(parsed) &&
+        typeof defaultValue === 'object' && defaultValue !== null && !Array.isArray(defaultValue)
+      ) {
+        return { ...defaultValue, ...parsed }
+      }
+      return parsed
     } catch {
       return defaultValue
     }
@@ -168,5 +179,13 @@ export function useTime() {
 
 export function useSettings() {
   const [settings, setSettings] = useLocalStorage<Settings>('startpage-settings', DEFAULT_SETTINGS)
+
+  // Sync font to dedicated key for easy access
+  useEffect(() => {
+    if (settings.font) {
+      localStorage.setItem('neko-font', settings.font)
+    }
+  }, [settings.font])
+
   return [settings, setSettings] as const
 }
