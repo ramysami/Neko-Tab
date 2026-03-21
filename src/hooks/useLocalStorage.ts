@@ -53,6 +53,7 @@ const DEFAULT_SETTINGS: Settings = {
   showDailyGoal: true,
   showGitHubStreak: false,
   githubUsername: '',
+  font: 'JetBrains Mono',
   asciiArt: `
   ⠀⠀⠀⠀⢠⡶⠚⢷⣤⡀⠀⠀⠀⠀⠀⣲⡶⠛⠻⣆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⢠⡿⠁⠀⠀⠙⣷⣄⠀⢀⣴⡟⠁⠀⠀⢷⢹⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀
@@ -80,7 +81,17 @@ export function useLocalStorage<T>(key: string, defaultValue: T): [T, (value: T 
   const [value, setValue] = useState<T>(() => {
     try {
       const stored = localStorage.getItem(key)
-      return stored ? JSON.parse(stored) : defaultValue
+      if (!stored) return defaultValue
+      
+      const parsed = JSON.parse(stored)
+      // If it's a plain object (not an array), merge with default value to ensure new properties exist
+      if (
+        typeof parsed === 'object' && parsed !== null && !Array.isArray(parsed) &&
+        typeof defaultValue === 'object' && defaultValue !== null && !Array.isArray(defaultValue)
+      ) {
+        return { ...defaultValue, ...parsed }
+      }
+      return parsed
     } catch {
       return defaultValue
     }
@@ -166,7 +177,43 @@ export function useTime() {
   return time
 }
 
+const FONT_URLS: Record<string, string> = {
+  'JetBrains Mono': 'https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap',
+  'Geist Mono':     'https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;700&display=swap',
+  'Space Mono':     'https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap',
+  'Fira Code':      'https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap',
+  'Cascadia Code':  'https://fonts.googleapis.com/css2?family=Cascadia+Code:wght@400;700&display=swap',
+  'IBM Plex Mono':  'https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&display=swap',
+  'Intel One Mono': 'https://fonts.googleapis.com/css2?family=Intel+One+Mono:wght@400;700&display=swap',
+  'Iosevka':        'https://fonts.googleapis.com/css2?family=Iosevka:wght@400;700&display=swap',
+  'Commit Mono':    'https://fonts.googleapis.com/css2?family=Commit+Mono:wght@400;700&display=swap',
+  'Source Code Pro':'https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;700&display=swap',
+  'Inconsolata':    'https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&display=swap',
+  'Hack':           'https://cdn.jsdelivr.net/npm/hack-font@3/build/web/hack.css',
+}
+
+function loadFont(family: string) {
+  const url = FONT_URLS[family]
+  if (!url) return
+  const id = `font-${family.replace(/\s/g, '-')}`
+  if (document.getElementById(id)) return // already loaded
+  const link = document.createElement('link')
+  link.id = id
+  link.rel = 'stylesheet'
+  link.href = url
+  document.head.appendChild(link)
+}
+
 export function useSettings() {
   const [settings, setSettings] = useLocalStorage<Settings>('startpage-settings', DEFAULT_SETTINGS)
+
+  // Lazily load only the selected font — not all fonts upfront
+  useEffect(() => {
+    const font = settings.font || 'JetBrains Mono'
+    loadFont(font)
+    localStorage.setItem('neko-font', font)
+    document.documentElement.style.setProperty('--font-mono', `'${font}'`)
+  }, [settings.font])
+
   return [settings, setSettings] as const
 }

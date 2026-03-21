@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, type CSSProperties } from 'react'
 import { useBookmarks, useSettings, useLocalStorage } from './hooks/useLocalStorage'
 import { Bookmarks } from './components/Bookmarks'
 import { Clock } from './components/Clock'
@@ -53,6 +53,14 @@ function App() {
   const appRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+    const root = document.documentElement
+    const fontValue = (settings.font || 'JetBrains Mono').includes(' ')
+      ? `'${settings.font || 'JetBrains Mono'}'`
+      : (settings.font || 'JetBrains Mono')
+    root.style.setProperty('--font-mono', fontValue)
+  }, [settings.font])
+
+  useEffect(() => {
     const stealFocus = () => {
       window.focus()
       if (document.activeElement === document.body) {
@@ -76,7 +84,7 @@ function App() {
         style={{
           outline: 'none',
           ...(bgImage ? { backgroundColor: 'transparent', background: 'none' } : {}),
-        }}
+        } as CSSProperties}
       >
         <SettingsPanel
           settings={settings}

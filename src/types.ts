@@ -50,4 +50,6 @@ export interface Settings {
   showDailyGoal: boolean
   showGitHubStreak: boolean
   githubUsername: string
+  // Font
+  font: string
 }
