@@ -1,5 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cascadia+Code:wght@400;700&family=Fira+Code:wght@400;700&family=IBM+Plex+Mono:wght@400;700&family=Inconsolata:wght@400;700&family=JetBrains+Mono:wght@400;700&family=Source+Code+Pro:wght@400;700&display=swap');
-@import url('https://cdn.jsdelivr.net/npm/hack-font@3/build/web/hack.css');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
 
 /* Color Palette from reference */
 :root {
@@ -2285,8 +2284,8 @@ input[type="checkbox"]:checked::after {
   border-radius: 12px;
   width: 900px;
   max-width: 95vw;
-  height: 600px;
-  max-height: 90vh;
+  height: 80vh;
+  max-height: 800px;
   display: flex;
   overflow: hidden;
   box-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.05);

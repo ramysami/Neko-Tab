@@ -32,13 +32,18 @@ const THEMES: ThemeInfo[] = [
 ]
 
 const FONTS = [
-  { id: 'jetbrains-mono', name: 'JetBrains Mono', family: 'JetBrains Mono' },
-  { id: 'fira-code', name: 'Fira Code', family: 'Fira Code' },
-  { id: 'cascadia-code', name: 'Cascadia Code', family: 'Cascadia Code' },
-  { id: 'ibm-plex-mono', name: 'IBM Plex Mono', family: 'IBM Plex Mono' },
-  { id: 'source-code-pro', name: 'Source Code Pro', family: 'Source Code Pro' },
-  { id: 'inconsolata', name: 'Inconsolata', family: 'Inconsolata' },
-  { id: 'hack', name: 'Hack', family: 'Hack' },
+  { id: 'jetbrains-mono',  name: 'JetBrains Mono',  family: 'JetBrains Mono' },
+  { id: 'geist-mono',      name: 'Geist Mono',       family: 'Geist Mono' },
+  { id: 'space-mono',      name: 'Space Mono',       family: 'Space Mono' },
+  { id: 'fira-code',       name: 'Fira Code',        family: 'Fira Code' },
+  { id: 'cascadia-code',   name: 'Cascadia Code',    family: 'Cascadia Code' },
+  { id: 'ibm-plex-mono',   name: 'IBM Plex Mono',    family: 'IBM Plex Mono' },
+  { id: 'intel-one-mono',  name: 'Intel One Mono',   family: 'Intel One Mono' },
+  { id: 'iosevka',         name: 'Iosevka',          family: 'Iosevka' },
+  { id: 'commit-mono',     name: 'Commit Mono',      family: 'Commit Mono' },
+  { id: 'source-code-pro', name: 'Source Code Pro',  family: 'Source Code Pro' },
+  { id: 'inconsolata',     name: 'Inconsolata',      family: 'Inconsolata' },
+  { id: 'hack',            name: 'Hack',             family: 'Hack' },
 ]
 
 interface SettingsPanelProps {
