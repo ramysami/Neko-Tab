@@ -36,6 +36,18 @@ Open with `Ctrl+\`` — a slide-in drawer with three tabs:
 - **Checklist** — keyboard-driven task list (`Enter` for new item, `Backspace` on empty deletes); checked items auto-clear on close
 - **Journal** — daily log keyed by date; past days accessible via nav buttons
 
+### Font Chooser
+
+Pick from 12 curated monospace fonts in Settings → Appearance. Fonts load lazily — only the selected font is fetched, not all of them upfront.
+
+- **Modern**: Geist Mono, Commit Mono, Intel One Mono
+- **Popular**: JetBrains Mono (default), Fira Code, Cascadia Code
+- **Character**: Space Mono, Iosevka, IBM Plex Mono, Inconsolata, Source Code Pro, Hack
+
+### Recent History in Command Palette
+
+When you open `Ctrl+K` with an empty query, the last 10 visited URLs and searches appear instantly. Deduped by URL, newest first. Clear history button in the hint row.
+
 ### Work Timer
 
 Lives in the status bar. `Ctrl+Shift+T` or click to start/stop. Shows elapsed time in `hh:mm:ss`.
@@ -110,7 +122,7 @@ Then in Chrome/Edge: **Extensions → Load unpacked → select the `dist/` folde
 
 Open the gear icon (top-left) to access:
 
-- **Appearance** — theme picker with live preview
+- **Appearance** — theme picker with live preview, font chooser
 - **Preferences** — name, clock format, display toggles
 - **ASCII Art** — image-to-ASCII converter or paste custom art
 - **Widgets** — background image, daily goal, GitHub streak
@@ -141,7 +153,7 @@ No analytics, no tracking, no external servers — except searches you explicitl
 - Vite
 - Tailwind CSS
 - Lucide React (icons)
-- JetBrains Mono (font)
+- JetBrains Mono (default font), 11 more via lazy Google Fonts loading
 
 ---
 
