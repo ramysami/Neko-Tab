@@ -1,20 +1,24 @@
-import { useEffect, useRef, type CSSProperties } from 'react'
+import { useEffect, useRef, type CSSProperties, Suspense, lazy } from 'react'
 import { useBookmarks, useSettings, useLocalStorage } from './hooks/useLocalStorage'
 import { Bookmarks } from './components/Bookmarks'
 import { Clock } from './components/Clock'
 import { PixelArt } from './components/PixelArt'
-import { SettingsPanel } from './components/SettingsPanel'
 import { ActivityWidget } from './components/ActivityWidget'
-import { FocusMode } from './components/FocusMode'
 import { DailyGoal } from './components/DailyGoal'
-import { Scratchpad } from './components/Scratchpad'
 import { CommandPalette } from './components/CommandPalette'
-import { ShortcutHelp } from './components/ShortcutHelp'
 
-function CustomBackground() {
-  const [settings] = useSettings()
-  const [bgImage] = useLocalStorage<string>('neko-bg-image', '')
+// Lazy load overlay components to improve initial mount time
+const SettingsPanel = lazy(() => import('./components/SettingsPanel').then(m => ({ default: m.SettingsPanel })))
+const FocusMode = lazy(() => import('./components/FocusMode').then(m => ({ default: m.FocusMode })))
+const Scratchpad = lazy(() => import('./components/Scratchpad').then(m => ({ default: m.Scratchpad })))
+const ShortcutHelp = lazy(() => import('./components/ShortcutHelp').then(m => ({ default: m.ShortcutHelp })))
 
+interface CustomBackgroundProps {
+  settings: any
+  bgImage: string
+}
+
+function CustomBackground({ settings, bgImage }: CustomBackgroundProps) {
   if (!bgImage) return null
 
   return (
@@ -75,7 +79,7 @@ function App() {
   return (
     <>
       {/* Background rendered outside .app so it's never clipped by the theme bg-color */}
-      <CustomBackground />
+      <CustomBackground settings={settings} bgImage={bgImage} />
 
       <div
         ref={appRef}
@@ -86,13 +90,15 @@ function App() {
           ...(bgImage ? { backgroundColor: 'transparent', background: 'none' } : {}),
         } as CSSProperties}
       >
-        <SettingsPanel
-          settings={settings}
-          onSettingsChange={setSettings}
-          onAddCategory={addCategory}
-        />
-        <Scratchpad />
-        <ShortcutHelp />
+        <Suspense fallback={null}>
+          <SettingsPanel
+            settings={settings}
+            onSettingsChange={setSettings}
+            onAddCategory={addCategory}
+          />
+          <Scratchpad />
+          <ShortcutHelp />
+        </Suspense>
 
         {/* Center Section */}
         <div className="center-section">
@@ -126,10 +132,14 @@ function App() {
         </div>
 
         {settings.showStatusBar && <ActivityWidget />}
-        <FocusMode />
+        
+        <Suspense fallback={null}>
+          <FocusMode />
+        </Suspense>
       </div>
     </>
   )
 }
 
 export default App
+
