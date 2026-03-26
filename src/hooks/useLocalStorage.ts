@@ -62,7 +62,7 @@ const DEFAULT_SETTINGS: Settings = {
   showGitHubStreak: false,
   githubUsername: '',
   font: 'JetBrains Mono',
-  asciiArtSource: 'os',
+  asciiArtSource: 'cat',
   customAsciiArt: CAT_ASCII,
   asciiArt: CAT_ASCII
 }
