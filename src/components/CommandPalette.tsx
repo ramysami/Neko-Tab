@@ -72,6 +72,7 @@ const FONT_LIST = [
 ]
 
 const SLASH_COMMANDS = [
+  { name: 'chrome-tab', desc: 'Open Chrome new tab page', icon: <Earth size={16} />, hint: '' },
   { name: 'theme', desc: 'Change color theme', icon: '◑', hint: '<name>' },
   { name: 'font', desc: 'Change font family', icon: '𝐀', hint: '<name>' },
   { name: 'goal', desc: "Set today's daily goal", icon: '▸', hint: '<text>' },
@@ -79,7 +80,6 @@ const SLASH_COMMANDS = [
   { name: 'clock', desc: 'Set clock format', icon: '◷', hint: '12h | 24h' },
   { name: 'export', desc: 'Export settings to JSON', icon: '↓' },
   { name: 'clear', desc: 'Clear recent history', icon: '✕' },
-  { name: 'chrome-tab', desc: 'Open Chrome new tab page', icon: <Earth size={16} />, hint: '' },
 ]
 
 export function CommandPalette() {
