@@ -1,0 +1,5 @@
+
+> neko-tab@0.0.0 build
+> tsc && vite build
+
+src/components/FocusMode.tsx(2,57): error TS6133: 'Target' is declared but its value is never read.

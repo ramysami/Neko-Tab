@@ -1,0 +1,18 @@
+
+> neko-tab@0.0.0 build
+> tsc && vite build
+
+vite v5.4.21 building for production...
+transforming...
+✓ 1712 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                          1.19 kB │ gzip:  0.53 kB
+dist/assets/index-CPZ0sgP8.css          63.00 kB │ gzip: 11.92 kB
+dist/assets/backup-Bf6BBKs_.js           0.92 kB │ gzip:  0.56 kB
+dist/assets/ShortcutHelp-Bj0XqgLA.js     1.74 kB │ gzip:  0.81 kB
+dist/assets/Scratchpad-DBch9WAG.js       5.82 kB │ gzip:  2.18 kB
+dist/assets/FocusMode-Do7iUrGK.js       12.60 kB │ gzip:  4.26 kB
+dist/assets/SettingsPanel-BrMZ_wcn.js   23.72 kB │ gzip:  5.99 kB
+dist/assets/index-DtLobTDG.js          181.11 kB │ gzip: 58.69 kB
+✓ built in 1.44s

@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { Activity } from 'lucide-react'
 import { GitHubStreak } from './GitHubStreak'
-import { WorkTimer } from './WorkTimer'
+import { FocusStreak } from './FocusStreak'
 import { useSettings } from '../hooks/useLocalStorage'
 
 interface HeapInfo {
@@ -114,7 +114,7 @@ export function ActivityWidget() {
         {settings.showGitHubStreak && settings.githubUsername && (
           <GitHubStreak username={settings.githubUsername} />
         )}
-        <WorkTimer />
+        <FocusStreak />
       </div>
     </div>
   )
