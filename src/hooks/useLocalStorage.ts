@@ -41,13 +41,6 @@ const DEFAULT_CATEGORIES: BookmarkCategory[] = [
   },
 ]
 
-export const getOS = (): 'windows' | 'macos' | 'linux' => {
-  const platform = window.navigator.platform.toLowerCase()
-  if (platform.includes('win')) return 'windows'
-  if (platform.includes('mac')) return 'macos'
-  return 'linux'
-}
-
 const DEFAULT_SETTINGS: Settings = {
   userName: 'User',
   showGreeting: true,
@@ -79,7 +72,14 @@ export function useLocalStorage<T>(key: string, defaultValue: T): [T, (value: T 
         typeof parsed === 'object' && parsed !== null && !Array.isArray(parsed) &&
         typeof defaultValue === 'object' && defaultValue !== null && !Array.isArray(defaultValue)
       ) {
-        return { ...defaultValue, ...parsed }
+        const merged = { ...defaultValue, ...parsed }
+        
+        // Migration: If user has custom art but no source selection yet, default to 'custom'
+        if (key === 'startpage-settings' && parsed.asciiArt && !parsed.asciiArtSource) {
+          (merged as any).asciiArtSource = 'custom'
+        }
+        
+        return merged as T
       }
       return parsed
     } catch {

@@ -85,8 +85,8 @@ export const CAT_ASCII = `
 `
 
 export const DETECTED_OS = (() => {
-  const platform = typeof window !== 'undefined' ? window.navigator.platform.toLowerCase() : '';
-  if (platform.includes('win')) return 'windows';
-  if (platform.includes('mac')) return 'macos';
+  const ua = typeof window !== 'undefined' ? window.navigator.userAgent.toLowerCase() : '';
+  if (ua.includes('win')) return 'windows';
+  if (ua.includes('mac')) return 'macos';
   return 'linux';
 })();
