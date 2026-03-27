@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import { useLocalStorage } from '../hooks/useLocalStorage'
 
 function fmt(ms: number): string {
@@ -6,28 +6,31 @@ function fmt(ms: number): string {
   const h = Math.floor(s / 3600)
   const m = Math.floor((s % 3600) / 60)
   const sec = s % 60
-  if (h > 0) return `${h}:${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`
-  return `${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`
+  if (h > 0) return `${h}:${String(m).padStart(2, '0')}:${String(sec).padStart(2, '0')}`
+  return `${String(m).padStart(2, '0')}:${String(sec).padStart(2, '0')}`
 }
 
 export function WorkTimer() {
   const [startedAt, setStartedAt] = useLocalStorage<number | null>('neko-timer-start', null)
-  const [elapsed, setElapsed] = useState(0)
-  const raf = useRef<number | null>(null)
+
+  // Initialize elapsed directly from persisted startedAt so there's no 0 flash on reload
+  const [elapsed, setElapsed] = useState<number>(() =>
+    startedAt !== null ? Date.now() - startedAt : 0
+  )
 
   useEffect(() => {
-    const tick = () => {
-      if (startedAt !== null) {
-        setElapsed(Date.now() - startedAt)
-        raf.current = requestAnimationFrame(tick)
-      }
-    }
-    if (startedAt !== null) {
-      raf.current = requestAnimationFrame(tick)
-    } else {
+    if (startedAt === null) {
       setElapsed(0)
+      return
     }
-    return () => { if (raf.current) cancelAnimationFrame(raf.current) }
+    // Sync immediately in case of tab reload
+    setElapsed(Date.now() - startedAt)
+
+    const id = setInterval(() => {
+      setElapsed(Date.now() - startedAt)
+    }, 1000)
+
+    return () => clearInterval(id)
   }, [startedAt])
 
   // Ctrl+Shift+T to toggle
@@ -40,10 +43,10 @@ export function WorkTimer() {
     }
     window.addEventListener('keydown', handler)
     return () => window.removeEventListener('keydown', handler)
-  }, [])
+  }, [setStartedAt])
 
   const toggle = () => setStartedAt(s => s === null ? Date.now() : null)
-  const reset  = (e: React.MouseEvent) => { e.stopPropagation(); setStartedAt(null) }
+  const reset = (e: React.MouseEvent) => { e.stopPropagation(); setStartedAt(null) }
 
   return (
     <div
