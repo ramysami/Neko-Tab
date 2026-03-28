@@ -1,0 +1,164 @@
+/* Responsive */
+@media (max-width: 900px) {
+  .app {
+    padding: var(--spacing-lg);
+    padding-bottom: 80px;
+  }
+
+  .main-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .content-section {
+    flex-direction: row;
+    gap: var(--spacing-lg);
+    align-items: flex-start;
+    margin-top: var(--spacing-lg);
+    overflow: hidden;
+    width: 100%;
+  }
+
+  .ascii-column {
+    flex-shrink: 0;
+    max-width: 40%;
+    overflow: hidden;
+  }
+
+  .links-column {
+    flex: 1;
+    min-width: 0;
+    overflow-x: auto;
+  }
+
+  .categories-grid {
+    gap: 20px 24px;
+    flex-wrap: nowrap;
+    padding-bottom: 10px;
+  }
+  
+  .category-column {
+    min-width: 120px;
+    flex: 0 0 auto;
+  }
+
+  .search-container {
+    min-width: 100%;
+  }
+
+  .bookmarks-container {
+    width: 100%;
+  }
+
+  .clock-container {
+    text-align: center;
+  }
+  }
+
+  @media (max-width: 600px) {
+  .app {
+    padding: var(--spacing-md);
+    padding-bottom: 80px;
+  }
+
+  .category-column {
+    min-width: 90px;
+    flex: 0 0 auto;
+  }
+  }
+
+  /* Scrollbar styling */
+  ::-webkit-scrollbar {
+  width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+  background: var(--onyx);
+  }
+
+  ::-webkit-scrollbar-thumb {
+  background: var(--graphite);
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+  background: var(--ash);
+  }
+
+  /* Activity Widget / Status Bar */
+  .activity-widget-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  font-family: var(--font-mono), monospace;
+  background: var(--bg-secondary, rgba(0,0,0,0.3));
+  border-top: 1px solid var(--border, rgba(255,255,255,0.1));
+  padding: 8px 32px;
+  }
+
+  .activity-summary {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 48px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  backdrop-filter: none;
+  box-shadow: none;
+  cursor: default;
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+  min-width: auto;
+  flex-wrap: wrap;
+  }
+.activity-summary:hover {
+  background: transparent;
+  opacity: 1;
+  transform: none;
+  box-shadow: none;
+  border-color: transparent;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.7rem;
+  color: var(--text-secondary, #fff);
+  text-shadow: none;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.stat-label {
+  color: var(--text-secondary);
+  opacity: 0.7;
+}
+
+.stat-item.status-online .stat-icon {
+  color: #4ade80;
+}
+
+.stat-item.status-offline .stat-icon {
+  color: #f87171;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.stat-icon {
+  color: var(--accent, #3dd2cc);
+  margin-right: 0;
+  opacity: 0.9;
+}
+
+.stat-value {
+  font-weight: 500;
+  color: var(--text-primary, #fff);
+}
+
+

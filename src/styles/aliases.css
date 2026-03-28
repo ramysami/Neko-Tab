@@ -1,0 +1,50 @@
+/* ==================== ALIASES ==================== */
+.alias-key-input { max-width: 100px; flex-shrink: 0; }
+
+.alias-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.alias-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  background: rgba(255,255,255,0.03);
+  border-radius: 4px;
+  font-size: 12px;
+  font-family: var(--font-mono), monospace;
+}
+
+.alias-key {
+  color: var(--accent);
+  font-weight: 600;
+  min-width: 60px;
+  flex-shrink: 0;
+}
+
+.alias-arrow { color: var(--text-secondary); opacity: 0.4; flex-shrink: 0; }
+
+.alias-url {
+  color: var(--text-secondary);
+  opacity: 0.7;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+}
+
+.alias-delete {
+  background: none; border: none;
+  color: var(--text-secondary); opacity: 0.3;
+  cursor: pointer; padding: 2px;
+  display: flex; align-items: center;
+  flex-shrink: 0;
+  transition: all 0.15s;
+}
+.alias-delete:hover { opacity: 1; color: #f87171; }
+
+

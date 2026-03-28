@@ -1,0 +1,271 @@
+/* ==================== ANIMATED THEMES ==================== */
+
+/* Cyberpunk Theme */
+.app.cyberpunk {
+  --bg-primary: #0a0a0f;
+  --bg-secondary: #05050a;
+  --bg-tertiary: #15151f;
+  --text-primary: #00f0ff;
+  --text-secondary: #ff00ff;
+  --accent: #ff00ff;
+  --accent-hover: #ff66ff;
+  --border: #2a2a3a;
+  background: linear-gradient(135deg, #0a0a0f 0%, #1a0a2e 50%, #0a0a0f 100%);
+  color: var(--text-primary);
+  animation: cyberpunk-bg 8s ease infinite;
+}
+
+@keyframes cyberpunk-bg {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.app.cyberpunk::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 240, 255, 0.03) 2px,
+      rgba(0, 240, 255, 0.03) 4px
+    );
+  pointer-events: none;
+  z-index: 1000;
+}
+
+.app.cyberpunk .clock-time,
+.app.cyberpunk .ascii-display {
+  text-shadow: 0 0 10px #00f0ff, 0 0 20px #00f0ff, 0 0 40px #00f0ff;
+  animation: neon-flicker 3s infinite;
+}
+
+@keyframes neon-flicker {
+  0%, 100% { opacity: 1; }
+  92% { opacity: 1; }
+  93% { opacity: 0.8; }
+  94% { opacity: 1; }
+  96% { opacity: 0.9; }
+  97% { opacity: 1; }
+}
+
+/* Aurora Theme */
+.app.aurora {
+  --bg-primary: #0f0c29;
+  --bg-secondary: #0a0820;
+  --bg-tertiary: #1a1540;
+  --text-primary: #ffffff;
+  --text-secondary: #c4b5fd;
+  --accent: #a855f7;
+  --accent-hover: #c084fc;
+  --border: #2a2555;
+  background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+  background-size: 400% 400%;
+  animation: aurora-shift 15s ease infinite;
+  color: var(--text-primary);
+}
+
+@keyframes aurora-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.app.aurora::before {
+  content: '';
+  position: fixed;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(ellipse at center, rgba(168, 85, 247, 0.15) 0%, transparent 50%);
+  animation: aurora-glow 10s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes aurora-glow {
+  0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.5; }
+  50% { transform: translateY(-10%) rotate(5deg); opacity: 0.8; }
+}
+
+/* Synthwave Theme */
+.app.synthwave {
+  --bg-primary: #1a1a2e;
+  --bg-secondary: #16162a;
+  --bg-tertiary: #252545;
+  --text-primary: #eaeaea;
+  --text-secondary: #f38181;
+  --accent: #e94560;
+  --accent-hover: #ff6b8a;
+  --border: #3a3a5a;
+  background: linear-gradient(180deg, #1a1a2e 0%, #16162a 50%, #0f0f1a 100%);
+  color: var(--text-primary);
+}
+
+.app.synthwave::after {
+  content: '';
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 40%;
+  background: linear-gradient(180deg, transparent 0%, rgba(233, 69, 96, 0.1) 100%);
+  pointer-events: none;
+}
+
+.app.synthwave .clock-time {
+  background: linear-gradient(180deg, #ff6b8a, #e94560);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: none;
+}
+
+/* Vaporwave Theme */
+.app.vaporwave {
+  --bg-primary: #1a0a2e;
+  --bg-secondary: #150825;
+  --bg-tertiary: #2a1548;
+  --text-primary: #ff71ce;
+  --text-secondary: #01cdfe;
+  --accent: #01cdfe;
+  --accent-hover: #05fffe;
+  --border: #3a2058;
+  background: linear-gradient(135deg, #1a0a2e 0%, #2d1b4e 50%, #1a0a2e 100%);
+  color: var(--text-primary);
+}
+
+.app.vaporwave .clock-time {
+  background: linear-gradient(90deg, #ff71ce, #01cdfe, #b967ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: vaporwave-text 3s ease infinite;
+  background-size: 200% auto;
+}
+
+@keyframes vaporwave-text {
+  0% { background-position: 0% center; }
+  100% { background-position: 200% center; }
+}
+
+.app.vaporwave .ascii-display {
+  color: #01cdfe;
+  text-shadow: 0 0 5px #01cdfe, 0 0 10px #ff71ce;
+}
+
+/* ==================== SPECIAL EFFECT THEMES ==================== */
+
+/* Retro Terminal (CRT) Theme */
+.app.retro-terminal {
+  --bg-primary: #0a0a0a;
+  --bg-secondary: #050505;
+  --bg-tertiary: #151515;
+  --text-primary: #33ff33;
+  --text-secondary: #22aa22;
+  --accent: #33ff33;
+  --accent-hover: #55ff55;
+  --border: #1a3a1a;
+  background-color: #0a0a0a;
+  color: var(--text-primary);
+}
+
+.app.retro-terminal::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    repeating-linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.15),
+      rgba(0, 0, 0, 0.15) 1px,
+      transparent 1px,
+      transparent 2px
+    );
+  pointer-events: none;
+  z-index: 1000;
+}
+
+.app.retro-terminal::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(ellipse at center, transparent 0%, rgba(0, 0, 0, 0.4) 100%);
+  pointer-events: none;
+  z-index: 999;
+}
+
+.app.retro-terminal * {
+  text-shadow: 0 0 5px #33ff33;
+}
+
+/* Sunset Theme */
+.app.sunset {
+  --bg-primary: #1a1423;
+  --bg-secondary: #150f1c;
+  --bg-tertiary: #251d30;
+  --text-primary: #ffecd2;
+  --text-secondary: #fcb69f;
+  --accent: #fcb69f;
+  --accent-hover: #fdd5c2;
+  --border: #3a2f45;
+  background: linear-gradient(180deg, #1a1423 0%, #2d1f3d 40%, #4a2c4a 70%, #1a1423 100%);
+  color: var(--text-primary);
+}
+
+.app.sunset .clock-time {
+  background: linear-gradient(180deg, #ffecd2, #fcb69f);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Ocean Theme */
+.app.ocean {
+  --bg-primary: #0c1821;
+  --bg-secondary: #0a141c;
+  --bg-tertiary: #142533;
+  --text-primary: #ccd6f6;
+  --text-secondary: #8892b0;
+  --accent: #64ffda;
+  --accent-hover: #7fffdf;
+  --border: #233554;
+  background: linear-gradient(180deg, #0c1821 0%, #0f2027 50%, #203a43 100%);
+  color: var(--text-primary);
+}
+
+.app.ocean .ascii-display {
+  color: #64ffda;
+  opacity: 0.9;
+}
+
+/* Midnight Theme */
+.app.midnight {
+  --bg-primary: #020617;
+  --bg-secondary: #010409;
+  --bg-tertiary: #0f172a;
+  --text-primary: #e2e8f0;
+  --text-secondary: #94a3b8;
+  --accent: #6366f1;
+  --accent-hover: #818cf8;
+  --border: #1e293b;
+  background: radial-gradient(ellipse at top, #1e1b4b 0%, #020617 50%, #020617 100%);
+  color: var(--text-primary);
+}
+
+.app.midnight .clock-time {
+  text-shadow: 0 0 20px rgba(99, 102, 241, 0.5);
+}
+
+

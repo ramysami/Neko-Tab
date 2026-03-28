@@ -1,0 +1,22 @@
+.chrome-tab-toggle {
+  position: fixed;
+  top: var(--spacing-md);
+  right: calc(var(--spacing-md) + 144px);
+  background: none;
+  border: none;
+  border-radius: 8px;
+  color: var(--text-secondary, var(--ash));
+  cursor: pointer;
+  padding: var(--spacing-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  z-index: 100;
+}
+
+.chrome-tab-toggle:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-primary, #fff);
+  backdrop-filter: blur(4px);
+}

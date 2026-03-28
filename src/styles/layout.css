@@ -1,0 +1,424 @@
+/* Main container */
+.main-container {
+  display: flex;
+  gap: var(--spacing-xl);
+  max-width: 1200px;
+  width: 100%;
+  align-items: flex-start;
+}
+
+/* Center Section - Clock and Search */
+.center-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-lg);
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Content Section - ASCII Art and Quick Links side by side */
+.content-section {
+  display: flex;
+  gap: var(--spacing-xl);
+  width: 100%;
+  max-width: 1200px;
+  margin-top: var(--spacing-xl);
+  align-items: flex-start;
+}
+
+/* ASCII Column */
+.ascii-column {
+  flex-shrink: 0;
+}
+
+/* Links Column */
+.links-column {
+  flex: 1;
+}
+
+/* Left Column - Pixel Art (legacy, keeping for compatibility) */
+.left-column {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+  flex-shrink: 0;
+  align-self: flex-start;
+  position: sticky;
+  top: var(--spacing-xl);
+}
+
+/* Right Column - Clock, Search, Bookmarks */
+.right-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+/* Pixel Art Container */
+.pixel-art-container {
+  width: auto;
+  height: auto;
+  overflow: visible;
+}
+
+.pixel-art {
+  width: 100%;
+  height: 100%;
+}
+
+.ascii-display {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8px;
+  line-height: 8px;
+  white-space: pre;
+  color: var(--accent, var(--cyan-accent));
+  width: auto;
+  display: block;
+  text-align: left;
+}
+
+.app.light .ascii-display,
+.app.paper .ascii-display {
+  color: var(--text-primary);
+}
+
+/* Search Container */
+.search-container {
+  background: var(--bg-tertiary, rgba(255, 255, 255, 0.05));
+  border-radius: 8px;
+  padding: var(--spacing-md) var(--spacing-lg);
+  max-width: 500px;
+  margin: 0 auto;
+  border: 1px solid var(--border, rgba(255, 255, 255, 0.1));
+  transition: border-color 0.2s ease;
+}
+
+.search-container:focus-within {
+  border-color: var(--accent, var(--ash));
+}
+
+.app.dark .search-container {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.app.light .search-container {
+  background: rgba(0, 0, 0, 0.05);
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+.search-form {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.search-icon {
+  color: var(--ash);
+  opacity: 0.7;
+}
+
+.search-shortcut {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--text-secondary, var(--ash));
+  opacity: 0.6;
+  font-size: 11px;
+  border: 1px solid var(--border, rgba(255,255,255,0.15));
+  padding: 4px 8px;
+  border-radius: 4px;
+  background: var(--bg-tertiary, rgba(0,0,0,0.2));
+}
+
+.search-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: var(--text-primary, var(--platinum));
+  font-family: inherit;
+  font-size: 16px;
+  padding: 0;
+  outline: none;
+}
+
+.app.light .search-input,
+.app.paper .search-input {
+  background: transparent;
+  color: var(--text-primary);
+  border: none;
+}
+
+.search-input::placeholder {
+  color: var(--ash);
+  opacity: 0.6;
+}
+
+.search-input:focus {
+  background: transparent;
+}
+
+.app.light .search-input:focus {
+  background: transparent;
+}
+
+/* Clock */
+.clock-container {
+  text-align: center;
+  margin-bottom: var(--spacing-lg);
+}
+
+.clock-time {
+  font-size: 64px;
+  font-weight: 300;
+  letter-spacing: 4px;
+  line-height: 1;
+  color: var(--text-primary);
+}
+
+.clock-date {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-top: var(--spacing-sm);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.clock-greeting {
+  font-size: 15px;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+
+.clock-greeting::before {
+  content: '> ';
+  color: var(--accent);
+}
+
+/* Bookmarks Container */
+.bookmarks-container {
+  padding: var(--spacing-lg) 0;
+  width: 100%;
+  position: relative;
+}
+
+.bookmarks-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-lg);
+}
+
+.quick-links-title {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-secondary, var(--ash));
+  font-weight: 500;
+}
+
+.app.dark .bookmarks-container {
+  background: transparent;
+}
+
+.app.light .bookmarks-container {
+  background: transparent;
+}
+
+/* Categories Grid - horizontal layout */
+.categories-grid {
+  display: flex;
+  gap: 24px 32px;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.category-column {
+  min-width: 110px;
+  flex: 0 0 auto;
+}
+
+.add-category-column {
+  display: flex;
+  align-items: flex-start;
+  min-width: auto;
+  flex: 0;
+}
+
+.category-header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
+  min-height: 24px;
+}
+
+.category-name {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--text-primary, var(--platinum));
+  text-decoration: none;
+}
+
+.app.light .category-name,
+.app.paper .category-name {
+  color: var(--text-primary);
+}
+
+.category-actions {
+  display: flex;
+  gap: 2px;
+}
+
+/* Action buttons - rectangular with 0 radius */
+.action-btn {
+  background: none;
+  border: 1px solid var(--border, var(--border-color));
+  border-radius: 0;
+  color: var(--text-secondary, var(--ash));
+  cursor: pointer;
+  padding: var(--spacing-xs);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.action-btn:hover {
+  background: var(--accent, var(--ash));
+  color: var(--bg-primary, var(--onyx));
+  border-color: var(--accent, var(--ash));
+}
+
+.action-btn-danger:hover {
+  background: #8b3a3a;
+  border-color: #8b3a3a;
+}
+
+/* Mini action buttons */
+.action-btn-mini {
+  background: none;
+  border: none;
+  border-radius: 0;
+  color: var(--ash);
+  cursor: pointer;
+  padding: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+  opacity: 0.7;
+}
+
+.action-btn-mini:hover {
+  color: var(--cyan-accent);
+  opacity: 1;
+}
+
+.action-btn-mini.action-btn-danger:hover {
+  color: #c45a5a;
+}
+
+/* Bookmarks list */
+.bookmarks-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.bookmark-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: 1px 0;
+}
+
+.bookmark-link {
+  color: var(--text-secondary, var(--platinum));
+  text-decoration: none;
+  font-size: 14px;
+  opacity: 0.85;
+  transition: all 0.15s ease;
+}
+
+.app.light .bookmark-link,
+.app.paper .bookmark-link {
+  color: var(--text-secondary);
+}
+
+.bookmark-link:hover {
+  color: var(--accent, var(--cyan-accent));
+  opacity: 1;
+}
+
+.bookmark-actions {
+  display: flex;
+  gap: 2px;
+}
+
+/* Inline input */
+.inline-input {
+  background: var(--graphite);
+  border: 1px solid var(--border-color);
+  border-radius: 0;
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  outline: none;
+  width: 100%;
+}
+
+.app.light .inline-input {
+  background: var(--platinum);
+}
+
+.inline-input:focus {
+  border-color: var(--cyan-accent);
+}
+
+/* Bookmark edit form */
+.bookmark-edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  width: 100%;
+}
+
+.edit-actions {
+  display: flex;
+  gap: var(--spacing-xs);
+  justify-content: flex-end;
+}
+
+/* Add category button - rectangular with 0 radius */
+.add-category-btn {
+  padding: var(--spacing-xs);
+  background: none;
+  border: 1px dashed var(--teal);
+  border-radius: 0;
+  color: var(--ash);
+  font-family: inherit;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.5;
+}
+
+.add-category-btn:hover {
+  border-style: solid;
+  border-color: var(--cyan-accent);
+  color: var(--cyan-accent);
+  opacity: 1;
+}
+
+.new-category-form {
+  min-width: 100px;
+}
+

@@ -1,0 +1,36 @@
+/* ==================== WORK TIMER ==================== */
+.work-timer-item {
+  cursor: pointer;
+  user-select: none;
+  gap: 6px;
+}
+
+.work-timer-dot {
+  font-size: 10px;
+  transition: color 0.2s;
+}
+
+.work-timer-item.running .work-timer-dot { color: #4ade80; }
+.work-timer-item:not(.running) .work-timer-dot { color: var(--text-secondary); opacity: 0.4; }
+
+.work-timer-value {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.5px;
+}
+
+.work-timer-item.running .work-timer-value { color: #4ade80; }
+
+.work-timer-reset {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 10px;
+  cursor: pointer;
+  opacity: 0.4;
+  padding: 0 2px;
+  line-height: 1;
+  transition: opacity 0.15s;
+}
+.work-timer-reset:hover { opacity: 1; color: #f87171; }
+
+

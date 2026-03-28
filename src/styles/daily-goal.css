@@ -1,0 +1,48 @@
+/* ==================== DAILY GOAL ==================== */
+.daily-goal-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: text;
+  font-family: var(--font-mono), monospace;
+  font-size: 14px;
+  min-height: 24px;
+  padding: 4px 0;
+}
+
+.daily-goal-prompt {
+  color: var(--accent);
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.daily-goal-text {
+  color: var(--text-primary);
+  opacity: 0.9;
+}
+
+.daily-goal-placeholder {
+  color: var(--text-secondary);
+  opacity: 0.45;
+  font-size: 13px;
+  transition: opacity 0.2s ease;
+}
+
+.daily-goal-container:hover .daily-goal-placeholder {
+  opacity: 0.65;
+}
+
+.daily-goal-input {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--accent);
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 14px;
+  outline: none;
+  flex: 1;
+  padding: 0 2px 2px;
+  min-width: 200px;
+}
+
+
