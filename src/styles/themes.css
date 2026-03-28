@@ -1,0 +1,210 @@
+/* Carbon Theme (Default Dark) */
+.app.carbon {
+  --bg-primary: #222526;
+  --bg-secondary: #1A1A1A;
+  --bg-tertiary: #2D3134;
+  --text-primary: #E0E0E0;
+  --text-secondary: #BFBFBF;
+  --accent: #3dd2cc;
+  --accent-hover: #5ae0db;
+  --border: #353A3E;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+/* Paper Theme (Light) */
+.app.paper {
+  --bg-primary: #F5F5F5;
+  --bg-secondary: #FFFFFF;
+  --bg-tertiary: #E8E8E8;
+  --text-primary: #222526;
+  --text-secondary: #555555;
+  --accent: #444444;
+  --accent-hover: #333333;
+  --border: #CCCCCC;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+/* Nord Theme */
+.app.nord {
+  --bg-primary: #2E3440;
+  --bg-secondary: #242933;
+  --bg-tertiary: #3B4252;
+  --text-primary: #ECEFF4;
+  --text-secondary: #D8DEE9;
+  --accent: #88C0D0;
+  --accent-hover: #8FBCBB;
+  --border: #4C566A;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+/* Solarized Theme */
+.app.solarized {
+  --bg-primary: #002B36;
+  --bg-secondary: #073642;
+  --bg-tertiary: #094959;
+  --text-primary: #93A1A1;
+  --text-secondary: #839496;
+  --accent: #2AA198;
+  --accent-hover: #35BDB4;
+  --border: #586E75;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+/* Matrix Theme */
+.app.matrix {
+  --bg-primary: #0D0D0D;
+  --bg-secondary: #000000;
+  --bg-tertiary: #1A1A1A;
+  --text-primary: #00FF41;
+  --text-secondary: #00CC33;
+  --accent: #00FF41;
+  --accent-hover: #33FF66;
+  --border: #003300;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+/* Dracula Theme */
+.app.dracula {
+  --bg-primary: #282A36;
+  --bg-secondary: #21222C;
+  --bg-tertiary: #343746;
+  --text-primary: #F8F8F2;
+  --text-secondary: #6272A4;
+  --accent: #BD93F9;
+  --accent-hover: #CAA9FA;
+  --border: #44475A;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+/* Monokai Theme */
+.app.monokai {
+  --bg-primary: #272822;
+  --bg-secondary: #1E1F1A;
+  --bg-tertiary: #3E3D32;
+  --text-primary: #F8F8F2;
+  --text-secondary: #75715E;
+  --accent: #F92672;
+  --accent-hover: #FF4088;
+  --border: #49483E;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+/* Gruvbox Theme */
+.app.gruvbox {
+  --bg-primary: #282828;
+  --bg-secondary: #1D2021;
+  --bg-tertiary: #3C3836;
+  --text-primary: #EBDBB2;
+  --text-secondary: #A89984;
+  --accent: #FE8019;
+  --accent-hover: #FABD2F;
+  --border: #504945;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+/* Tokyo Night Theme */
+.app.tokyo-night {
+  --bg-primary: #1A1B26;
+  --bg-secondary: #16161E;
+  --bg-tertiary: #24283B;
+  --text-primary: #A9B1D6;
+  --text-secondary: #565F89;
+  --accent: #7AA2F7;
+  --accent-hover: #89B4FA;
+  --border: #3B4261;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+/* Catppuccin Theme */
+.app.catppuccin {
+  --bg-primary: #1E1E2E;
+  --bg-secondary: #181825;
+  --bg-tertiary: #313244;
+  --text-primary: #CDD6F4;
+  --text-secondary: #A6ADC8;
+  --accent: #F5C2E7;
+  --accent-hover: #F5E0DC;
+  --border: #45475A;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+/* One Dark Theme */
+.app.one-dark {
+  --bg-primary: #282C34;
+  --bg-secondary: #21252B;
+  --bg-tertiary: #2C323C;
+  --text-primary: #ABB2BF;
+  --text-secondary: #5C6370;
+  --accent: #61AFEF;
+  --accent-hover: #74B9F0;
+  --border: #3E4452;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+/* Rosé Pine Theme */
+.app.rose-pine {
+  --bg-primary: #191724;
+  --bg-secondary: #1F1D2E;
+  --bg-tertiary: #26233A;
+  --text-primary: #E0DEF4;
+  --text-secondary: #908CAA;
+  --accent: #EBBCBA;
+  --accent-hover: #F6D5D3;
+  --border: #403D52;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+/* Everforest Theme */
+.app.everforest {
+  --bg-primary: #2D353B;
+  --bg-secondary: #272E33;
+  --bg-tertiary: #343F44;
+  --text-primary: #D3C6AA;
+  --text-secondary: #859289;
+  --accent: #A7C080;
+  --accent-hover: #B8D18E;
+  --border: #414B50;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+
+/* Legacy support */
+.app.dark {
+  --bg-primary: #222526;
+  --bg-secondary: #1A1A1A;
+  --bg-tertiary: #2D3134;
+  --text-primary: #E0E0E0;
+  --text-secondary: #BFBFBF;
+  --accent: #3dd2cc;
+  --accent-hover: #5ae0db;
+  --border: #353A3E;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+.app.light {
+  --bg-primary: #F5F5F5;
+  --bg-secondary: #FFFFFF;
+  --bg-tertiary: #E8E8E8;
+  --text-primary: #222526;
+  --text-secondary: #555555;
+  --accent: #444444;
+  --accent-hover: #333333;
+  --border: #CCCCCC;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+
+}

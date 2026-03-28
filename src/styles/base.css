@@ -1,0 +1,64 @@
+/* Color Palette from reference */
+:root {
+  --font-mono: 'JetBrains Mono';
+  /* Dark colors */
+  --onyx: #222526;
+  --graphite: #353A3E;
+  --jet-black: #1A1A1A;
+  
+  /* Light colors */
+  --platinum: #E0E0E0;
+  --ash: #BFBFBF;
+  
+  /* Accent colors */
+  --teal: #2d5a5a;
+  --teal-light: #3d7a7a;
+  --teal-dark: #1a3a3a;
+  --cyan-accent: #4a9a9a;
+  
+  /* Spacing */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  
+  /* Border */
+  --border-color: var(--graphite);
+  --border-width: 2px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-mono), 'Fira Code', 'Consolas', monospace;
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: transparent;
+}
+
+input, button, textarea, select {
+  font-family: inherit;
+}
+
+/* Theme styles */
+.app {
+  font-family: var(--font-mono), 'Fira Code', 'Consolas', monospace;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-xl);
+  padding-bottom: 80px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  position: relative;
+  z-index: 1;
+}
+

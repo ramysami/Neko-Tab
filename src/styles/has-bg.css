@@ -1,0 +1,71 @@
+/* ==================== HAS-BG: Glass mode when custom background is active ==================== */
+
+/* Search bar becomes a glass pill */
+.has-bg .search-container {
+  background: rgba(0, 0, 0, 0.35) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-color: rgba(255, 255, 255, 0.12) !important;
+}
+
+/* Bookmarks section gets a subtle glass card */
+.has-bg .bookmarks-container {
+  background: rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 8px;
+  padding: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+/* Category names stay readable */
+.has-bg .category-name {
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+}
+
+/* Bookmark links stay readable */
+.has-bg .bookmark-link {
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+}
+
+/* Clock stays readable */
+.has-bg .clock-time {
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.8);
+}
+
+.has-bg .clock-date,
+.has-bg .clock-greeting {
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.7);
+}
+
+/* Daily goal readable */
+.has-bg .daily-goal-text,
+.has-bg .daily-goal-placeholder {
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+}
+
+/* Status bar gets glass treatment */
+.has-bg .activity-widget-container {
+  background: rgba(0, 0, 0, 0.4) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-top-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* ASCII art stays visible with a soft glow */
+.has-bg .ascii-display {
+  filter: drop-shadow(0 0 6px rgba(0, 0, 0, 0.9));
+}
+
+/* Light paper theme + bg: invert the glass tint to white */
+.has-bg.paper .search-container,
+.has-bg.paper .bookmarks-container {
+  background: rgba(255, 255, 255, 0.35) !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+.has-bg.paper .activity-widget-container {
+  background: rgba(255, 255, 255, 0.4) !important;
+}
+
+
