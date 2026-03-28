@@ -20,23 +20,25 @@
 
 /* Content Section - ASCII Art and Quick Links side by side */
 .content-section {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--spacing-xl);
+  display: flex;
+  justify-content: center;
+  gap: 80px;
   width: 100%;
-  max-width: 1200px;
-  margin-top: var(--spacing-xl);
+  max-width: 1000px;
+  margin: var(--spacing-xl) auto 0;
   align-items: flex-start;
 }
 
 /* ASCII Column */
 .ascii-column {
-  /* Provide a flexible bounding box that allows contents to align cleanly */
+  /* Fixed base widths prevent massive texts from shifting adjacent columns */
+  flex: 0 1 350px;
   min-width: 0;
 }
 
 /* Links Column */
 .links-column {
+  flex: 0 1 500px;
   min-width: 0;
 }
 
