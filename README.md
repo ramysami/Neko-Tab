@@ -51,13 +51,17 @@ Pick from 12 curated monospace fonts in Settings → Appearance. Fonts load lazi
 
 When you open `Ctrl+K` with an empty query, the last 10 visited URLs and searches appear instantly. Deduped by URL, newest first. Clear history button in the hint row.
 
-### Default Chrome Tab
-For those who occasionally miss the default browser new tab page, Neko-Tab provides a dedicated **Chrome Tab** button (and a `/chrome-tab` command) to instantly open the native browser tab. This icon can be toggled on or off in Settings.
+### Focus Mode (Pomodoro)
 
-### Work Timer
+`Ctrl+F` or the crosshair icon to open. A full-featured Pomodoro timer with website blocking:
 
-Lives in the status bar. `Ctrl+Shift+T` or click to start/stop. Shows elapsed time in `hh:mm:ss`.
-Persists across tab reloads — closing a tab mid-session doesn't lose your time.
+- **Duration presets** — 15, 25, 45, 90 minutes, or custom
+- **Task tracking** — set an intention for each session
+- **Site blocking** — block Facebook, Instagram, TikTok, Twitter/X, LinkedIn, Reddit, YouTube, Netflix, Twitch, or add custom domains
+- **Dashboard** — today's blocks, current streak, best streak, weekly consistency chart
+- **Session log** — view all completed sessions for the day
+- **Notifications** — desktop notification + sound on completion
+- **Identity reinforcement** — motivational messages based on your streak
 
 ### Daily Goal
 
@@ -71,21 +75,17 @@ A two-column quick-links panel below the command palette. Fully editable without
 - Add, edit, and delete individual links per category
 - All data stored locally — no sync, no account
 
-### Focus Mode
+### Chrome Tab Button
 
-`Ctrl+F` or the crosshair icon (top-right) to open. Pomodoro-style 25-minute timer with website blocking:
-
-- Preset distractions: Facebook, Instagram, TikTok, Twitter, X.com, LinkedIn, Reddit, YouTube, Netflix, Twitch
-- Add custom domains to block
-- Sites unblock automatically when timer ends or is reset
-- Desktop notification + sound on completion
+Toggle with `Ctrl+Shift+R` or the tab icon in the top-right. Opens a new Chrome tab with the same new tab page.
 
 ### Status Bar
 
 - **HEAP** — JS heap memory usage with a live bar (Chrome only)
 - **PING** — real latency via `1.1.1.1` (not just `navigator.onLine`)
 - **GitHub Streak** — contribution streak with 14-day sparkline (optional, no auth needed)
-- **Work Timer** — always visible when running
+- **Focus Streak** — days with at least one completed Pomodoro session, with 7-day sparkline
+- **Work Timer** — simple elapsed time tracker, `Ctrl+Shift+T` to toggle
 
 ### Keyboard Shortcuts
 
@@ -97,6 +97,7 @@ Press `?` anywhere to show the full shortcut cheatsheet.
 | `Ctrl+\`` | Toggle scratchpad |
 | `Ctrl+Shift+T` | Start / stop work timer |
 | `Ctrl+F` | Open / close Focus Mode |
+| `Ctrl+Shift+S` | Save scratchpad (auto-saves anyway) |
 | `?` | Show shortcut help |
 | `Escape` | Close any open panel |
 | `↑ / ↓` or `Ctrl+P / Ctrl+N` | Navigate palette results |
@@ -104,6 +105,7 @@ Press `?` anywhere to show the full shortcut cheatsheet.
 | `Enter / Escape` | Confirm / cancel daily goal edit |
 | `Enter` | New checklist item (scratchpad) |
 | `Backspace` | Delete empty checklist item |
+| `Tab` | Navigate focus mode inputs |
 
 ---
 
@@ -140,11 +142,12 @@ Then in Chrome/Edge: **Extensions → Load unpacked → select the `dist/` folde
 
 Open the gear icon (top-right) to access:
 
-- **Appearance** — theme picker with live preview, font chooser
-- **Preferences** — name, clock format, display toggles
-- **ASCII Art** — image-to-ASCII converter or paste custom art
-- **Widgets** — background image, daily goal, GitHub streak
+- **Appearance** — theme picker with live preview, font chooser (12 curated monospace fonts)
+- **Preferences** — name, clock format (12/24h), display toggles (clock, greeting, status bar, etc.)
+- **ASCII Art** — image-to-ASCII converter, custom art editor, or OS-specific art (Windows/Mac/Linux)
+- **Widgets** — background image with dim/blur controls, daily goal, GitHub streak (set username)
 - **Aliases** — define short URL aliases for the command palette
+- **Focus Mode** — configure default duration and blocked sites
 - **Advanced** — reset all user data and wipe stored settings cleanly
 
 ---
