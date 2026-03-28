@@ -28,6 +28,9 @@ Press `Ctrl+K` or `/` to open the unified command palette. It replaces the tradi
 
 Custom background image support with adjustable dim and blur overlay.
 
+### Custom ASCII Art
+Add your own text-based artwork to the main screen, configure the ASCII source (OS-specific, custom, or completely hidden), and manage it perfectly without layout breaks natively from the Settings menu.
+
 ### Scratchpad
 
 Open with `Ctrl+\`` — a slide-in drawer with three tabs:
@@ -47,6 +50,9 @@ Pick from 12 curated monospace fonts in Settings → Appearance. Fonts load lazi
 ### Recent History in Command Palette
 
 When you open `Ctrl+K` with an empty query, the last 10 visited URLs and searches appear instantly. Deduped by URL, newest first. Clear history button in the hint row.
+
+### Default Chrome Tab
+For those who occasionally miss the default browser new tab page, Neko-Tab provides a dedicated **Chrome Tab** button (and a `/chrome-tab` command) to instantly open the native browser tab. This icon can be toggled on or off in Settings.
 
 ### Work Timer
 
@@ -93,7 +99,7 @@ Press `?` anywhere to show the full shortcut cheatsheet.
 | `Ctrl+F` | Open / close Focus Mode |
 | `?` | Show shortcut help |
 | `Escape` | Close any open panel |
-| `↑ / ↓` | Navigate palette results |
+| `↑ / ↓` or `Ctrl+P / Ctrl+N` | Navigate palette results |
 | `Enter` | Open selected result |
 | `Enter / Escape` | Confirm / cancel daily goal edit |
 | `Enter` | New checklist item (scratchpad) |
@@ -139,6 +145,7 @@ Open the gear icon (top-right) to access:
 - **ASCII Art** — image-to-ASCII converter or paste custom art
 - **Widgets** — background image, daily goal, GitHub streak
 - **Aliases** — define short URL aliases for the command palette
+- **Advanced** — reset all user data and wipe stored settings cleanly
 
 ---
 
