@@ -185,7 +185,7 @@ If Neko-Tab saves you time or you just like what it does, a small contribution g
 
 **eSewa (Nepal):** `9823211188`
 
-No pressure — the project is and will always be free and open source.
+No pressure, the project is and will always be free and open source.
 
 ---
 
