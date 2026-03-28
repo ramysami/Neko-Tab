@@ -7,7 +7,11 @@ export const openChromeNewTab = () => {
   } 
 }
 
-export function ChromeTabButton() {
+interface ChromeTabButtonProps {
+  visible?: boolean
+}
+
+export function ChromeTabButton({ visible = true }: ChromeTabButtonProps) {
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       const tag = (e.target as HTMLElement).tagName
@@ -22,6 +26,8 @@ export function ChromeTabButton() {
     window.addEventListener('keydown', handler)
     return () => window.removeEventListener('keydown', handler)
   }, [])
+
+  if (!visible) return null
 
   return (
     <button 

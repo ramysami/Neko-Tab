@@ -136,7 +136,7 @@ function App() {
           />
           <Scratchpad />
           <ShortcutHelp />
-          <ChromeTabButton />
+          <ChromeTabButton visible={settings.showChromeTab} />
         </Suspense>
 
         {/* Center Section */}

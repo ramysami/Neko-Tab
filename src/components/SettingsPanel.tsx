@@ -650,7 +650,14 @@ export function SettingsPanel({ settings, onSettingsChange, onAddCategory }: Set
                 {/* ADVANCED TAB */}
                 {activeTab === 'advanced' && (
                   <div className='saas-section'>
-
+                    <div className='saas-card'>
+                      <label className='saas-label'>Home Page Settings</label>
+                      <div className='saas-toggle-list'>
+                        {renderToggle('Show "Open Chrome Tab" button.', localSettings.showChromeTab ?? true, val => handleChange('showChromeTab', val))}
+                      </div>
+                      <p className='saas-hint'>Keyboard shortcut "c" will always open a new Chrome tab regardless of this setting.
+                      </p>
+                    </div>
                   </div>
                 )}
               </div>
