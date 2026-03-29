@@ -166,6 +166,8 @@ function App() {
               onAddBookmark={addBookmark}
               onDeleteBookmark={deleteBookmark}
               onEditBookmark={editBookmark}
+              showBookmarks={settings.showBookmarks}
+              onToggleShowBookmarks={() => setSettings(s => ({ ...s, showBookmarks: !s.showBookmarks }))}
             />
           </div>
         </div>

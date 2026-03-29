@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
-import { Plus, Pencil, Trash2, X, Check } from 'lucide-react'
+import { Plus, Pencil, Trash2, X, Check, ChevronDown, ChevronRight } from 'lucide-react'
 import type { BookmarkCategory, Bookmark } from '../types'
 
 interface BookmarksProps {
@@ -10,6 +10,8 @@ interface BookmarksProps {
   onAddBookmark: (categoryId: string, title: string, url: string) => void
   onDeleteBookmark: (categoryId: string, bookmarkId: string) => void
   onEditBookmark: (categoryId: string, bookmarkId: string, title: string, url: string) => void
+  showBookmarks: boolean
+  onToggleShowBookmarks: () => void
 }
 
 interface EditingState {
@@ -28,6 +30,8 @@ export function Bookmarks({
   onAddBookmark,
   onDeleteBookmark,
   onEditBookmark,
+  showBookmarks,
+  onToggleShowBookmarks,
 }: BookmarksProps) {
   const [editing, setEditing] = useState<EditingState>({ type: null })
   const [isEditMode, setIsEditMode] = useState(false)
@@ -117,7 +121,13 @@ export function Bookmarks({
   return (
     <div className="bookmarks-container">
       <div className="bookmarks-header">
-        <h3 className="quick-links-title">QUICK LINKS</h3>
+        <div 
+          className="bookmarks-toggle"
+          onClick={onToggleShowBookmarks}
+        >
+          {showBookmarks ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
+          <h3 className="quick-links-title">QUICK LINKS</h3>
+        </div>
         <button 
           className="action-btn-mini"
           style={{ opacity: isEditMode ? 1 : 0.5 }}
@@ -128,7 +138,14 @@ export function Bookmarks({
         </button>
       </div>
 
-      <div className="categories-grid">
+      <div 
+        className={`categories-grid ${!showBookmarks ? 'no-transition' : ''}`}
+        style={{ 
+          opacity: showBookmarks ? 1 : 0,
+          pointerEvents: showBookmarks ? 'auto' : 'none',
+          transition: 'none'
+        }}
+      >
         {topSites.length > 0 && (
           <div className="category-column">
             <div className="category-header">
