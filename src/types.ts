@@ -58,4 +58,6 @@ export interface Settings {
   font: string
   // Chrome Tab
   showChromeTab: boolean
+  // Bookmarks
+  showBookmarks: boolean
 }

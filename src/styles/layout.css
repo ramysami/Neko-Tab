@@ -22,7 +22,7 @@
 .content-section {
   display: flex;
   justify-content: center;
-  gap: 80px;
+  gap: var(--spacing-lg);
   width: 100%;
   max-width: 1000px;
   margin: var(--spacing-xl) auto 0;
@@ -32,14 +32,20 @@
 /* ASCII Column */
 .ascii-column {
   /* Fixed base widths prevent massive texts from shifting adjacent columns */
-  flex: 0 1 350px;
+  flex: 0 0 350px;
   min-width: 0;
+  display: flex;
+  justify-content: center;
 }
 
 /* Links Column */
 .links-column {
-  flex: 0 1 500px;
+  flex: 0 0 600px;
   min-width: 0;
+}
+
+.no-transition, .no-transition * {
+  transition: none !important;
 }
 
 /* Left Column - Pixel Art (legacy, keeping for compatibility) */
@@ -214,7 +220,7 @@
 
 /* Bookmarks Container */
 .bookmarks-container {
-  padding: var(--spacing-lg) 0;
+  padding: 0;
   width: 100%;
   position: relative;
 }
@@ -226,12 +232,29 @@
   margin-bottom: var(--spacing-lg);
 }
 
+.bookmarks-toggle {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  cursor: pointer;
+  user-select: none;
+  color: var(--ash);
+  transition: all 0.15s ease;
+  opacity: 0.7;
+}
+
+.bookmarks-toggle:hover {
+  color: var(--cyan-accent);
+  opacity: 1;
+}
+
 .quick-links-title {
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 1px;
   color: var(--text-secondary, var(--ash));
   font-weight: 500;
+  margin: 0;
 }
 
 .app.dark .bookmarks-container {
