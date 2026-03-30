@@ -4,38 +4,84 @@ on:
   push:
     tags:
       - 'v*'
+  workflow_dispatch:
+    inputs:
+      bump_type:
+        description: 'What type of release is this?'
+        required: true
+        default: 'patch'
+        type: choice
+        options:
+          - patch  # e.g., 1.0.1 -> 1.0.2
+          - minor  # e.g., 1.0.1 -> 1.1.0
+          - major  # e.g., 1.0.1 -> 2.0.0
 
 jobs:
   build-and-release:
     runs-on: ubuntu-latest
     permissions:
-      contents: write # Required to push the commit and create the release
+      contents: write 
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
-          ref: main # Ensure we are on the branch, not a detached head
+          # Dynamically check out the branch triggered in the UI, or fallback to main for tags
+          ref: ${{ github.event_name == 'workflow_dispatch' && github.ref_name || 'main' }}
+          fetch-depth: 0 
 
-      - name: Auto-Increment and Commit
+      - name: Determine Version and Tag
         run: |
-          # 1. Update manifest.json in public folder
-          NEW_VERSION=${GITHUB_REF_NAME#v}
-          jq --arg ver "$NEW_VERSION" '.version = $ver' public/manifest.json > tmp.json && mv tmp.json public/manifest.json
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            # 1. Read the current version from the manifest
+            CURRENT_VERSION=$(jq -r '.version' public/manifest.json)
+            
+            # 2. Split the version into an array [Major, Minor, Patch]
+            IFS='.' read -ra VER <<< "$CURRENT_VERSION"
+            
+            # 3. Calculate the new version based on the dropdown choice
+            if [ "${{ github.event.inputs.bump_type }}" = "major" ]; then
+              NEW_VERSION="$((VER[0]+1)).0.0"
+            elif [ "${{ github.event.inputs.bump_type }}" = "minor" ]; then
+              NEW_VERSION="${VER[0]}.$((VER[1]+1)).0"
+            else
+              NEW_VERSION="${VER[0]}.${VER[1]}.$((VER[2]+1))"
+            fi
+            
+            echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
+            echo "RELEASE_TAG=v$NEW_VERSION" >> $GITHUB_ENV
+            echo "Auto-calculated new version: $NEW_VERSION"
+            
+          else
+            # Triggered by a Git Tag, use the tag name as normal
+            echo "NEW_VERSION=${GITHUB_REF_NAME#v}" >> $GITHUB_ENV
+            echo "RELEASE_TAG=$GITHUB_REF_NAME" >> $GITHUB_ENV
+          fi
+
+      - name: Auto-Increment, Commit, and Move Tag
+        run: |
+          jq --arg ver "${{ env.NEW_VERSION }}" '.version = $ver' public/manifest.json > tmp.json && mv tmp.json public/manifest.json
           
-          # 2. Configure Git
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           
-          # 3. Commit and Push back to main
           git add public/manifest.json
-          git commit -m "chore: bump version to $NEW_VERSION [skip ci]"
-          git push origin main
+          
+          if git diff --staged --quiet; then
+            echo "Version in manifest is already up to date. Skipping commit."
+          else
+            git commit -m "chore: bump version to ${{ env.NEW_VERSION }} [skip ci]"
+            # Dynamically push back to the branch that triggered the workflow
+            git push origin ${{ github.event_name == 'workflow_dispatch' && github.ref_name || 'main' }}
+          fi
+          
+          git tag -f ${{ env.RELEASE_TAG }}
+          git push origin ${{ env.RELEASE_TAG }} --force
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
-          node-version: '20'
+          node-version: '24.x'
           cache: 'npm'
 
       - name: Install Dependencies
@@ -48,18 +94,16 @@ jobs:
         run: |
           RAW_NAME=$(jq -r '.name' public/manifest.json)
           CLEAN_NAME="${RAW_NAME// /_}"
-          echo "FILENAME=${CLEAN_NAME}_v${GITHUB_REF_NAME#v}.zip" >> $GITHUB_ENV
+          echo "FILENAME=${CLEAN_NAME}_v${{ env.NEW_VERSION }}.zip" >> $GITHUB_ENV
 
       - name: Create Zip of dist/
         run: |
-          # Zip the contents of the dist folder
           cd dist && zip -r "../${{ env.FILENAME }}" .
 
       - name: Create GitHub Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release create ${{ github.ref_name }} "${{ env.FILENAME }}" \
-            --title "Release ${{ github.ref_name }}" \
+          gh release create ${{ env.RELEASE_TAG }} "${{ env.FILENAME }}" \
+            --title "Release ${{ env.RELEASE_TAG }}" \
             --generate-notes
-
