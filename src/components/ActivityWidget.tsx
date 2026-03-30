@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { Activity } from 'lucide-react'
 import { GitHubStreak } from './GitHubStreak'
 import { FocusStreak } from './FocusStreak'
+import { TabCounter } from './TabCounter'
 import { useSettings } from '../hooks/useLocalStorage'
 
 interface HeapInfo {
@@ -20,7 +21,7 @@ function readHeap(): HeapInfo | null {
 }
 
 function heapColor(pct: number): string {
-  if (pct < 50) return '#4ade80'  // green
+  if (pct < 50) return 'var(--accent)'  // match theme accent
   if (pct < 75) return '#facc15'  // yellow
   return '#f87171'                 // red
 }
@@ -48,7 +49,7 @@ async function measureLatency(): Promise<number | null> {
 
 function latencyColor(ms: number | null): string {
   if (ms === null) return 'var(--text-secondary)'
-  if (ms < 80)  return '#4ade80' // green
+  if (ms < 80)  return 'var(--accent)' // match theme accent
   if (ms < 200) return '#facc15' // yellow
   return '#f87171'               // red
 }
@@ -115,6 +116,7 @@ export function ActivityWidget() {
           <GitHubStreak username={settings.githubUsername} />
         )}
         <FocusStreak />
+        {settings.showTabCounter !== false && <TabCounter />}
       </div>
     </div>
   )
