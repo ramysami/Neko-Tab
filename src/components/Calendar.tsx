@@ -1,23 +1,38 @@
-import { useTime } from '../hooks/useLocalStorage'
+import { useTime, useSettings } from '../hooks/useLocalStorage'
 
 export function Calendar() {
   const time = useTime()
+  const [settings] = useSettings()
   const year = time.getFullYear()
   const month = time.getMonth()
   const today = time.getDate()
 
   const monthName = time.toLocaleString('en-US', { month: 'long' })
   
-  // First day of month (0 = Sunday, 6 = Saturday)
-  const firstDay = new Date(year, month, 1).getDay()
+  // First day of month (0 = Sunday, 1 = Monday, ..., 6 = Saturday)
+  const firstDayOfMonth = new Date(year, month, 1).getDay()
   // Number of days in current month
   const lastDay = new Date(year, month + 1, 0).getDate()
 
-  const daysHeader = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']
+  const baseDays = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']
+  
+  let daysHeader = [...baseDays]
+  let offset = 0
+
+  if (settings.weekStartDay === 'monday') {
+    daysHeader = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su']
+    offset = (firstDayOfMonth + 6) % 7
+  } else if (settings.weekStartDay === 'saturday') {
+    daysHeader = ['Sa', 'Su', 'Mo', 'Tu', 'We', 'Th', 'Fr']
+    offset = (firstDayOfMonth + 1) % 7
+  } else {
+    // Sunday
+    offset = firstDayOfMonth
+  }
   
   const cells = []
   // Empty slots for previous month
-  for (let i = 0; i < firstDay; i++) {
+  for (let i = 0; i < offset; i++) {
     cells.push(<div key={`empty-${i}`} className="calendar-cell empty" />)
   }
   // Days of current month

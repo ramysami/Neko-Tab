@@ -50,6 +50,7 @@ const DEFAULT_SETTINGS: Settings = {
     showTabCounter: true,
   theme: 'carbon',
   clockFormat: '24h',
+  weekStartDay: 'sunday',
   bgDim: 40,
   bgBlur: 0,
   showDailyGoal: true,

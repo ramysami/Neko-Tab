@@ -45,6 +45,7 @@ export interface Settings {
   showTabCounter: boolean
   theme: ThemeType
   clockFormat: '12h' | '24h'
+  weekStartDay: 'sunday' | 'monday' | 'saturday'
   asciiArtSource: AsciiArtSource
   asciiArt?: string // Deprecated, but keep for migration if needed
   customAsciiArt?: string
