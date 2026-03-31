@@ -20,8 +20,8 @@
 
 .calendar-corner {
   position: fixed;
-  top: 80px;
-  right: var(--spacing-xl);
+  top: var(--spacing-xl);
+  left: var(--spacing-xl);
   z-index: 10;
 }
 

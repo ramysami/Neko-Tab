@@ -54,7 +54,7 @@ const DEFAULT_SETTINGS: Settings = {
   bgDim: 40,
   bgBlur: 0,
   showDailyGoal: true,
-  showCalendar: true,
+  showCalendar: false,
   showGitHubStreak: false,
   githubUsername: '',
   font: 'JetBrains Mono',
