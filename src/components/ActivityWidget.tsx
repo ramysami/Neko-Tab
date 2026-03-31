@@ -22,8 +22,8 @@ function readHeap(): HeapInfo | null {
 
 function heapColor(pct: number): string {
   if (pct < 50) return 'var(--accent)'  // match theme accent
-  if (pct < 75) return '#facc15'  // yellow
-  return '#f87171'                 // red
+  if (pct < 75) return 'var(--status-warning)'
+  return 'var(--status-danger)'
 }
 
 // Ping a tiny resource and return round-trip ms, or null on timeout/failure
@@ -50,8 +50,8 @@ async function measureLatency(): Promise<number | null> {
 function latencyColor(ms: number | null): string {
   if (ms === null) return 'var(--text-secondary)'
   if (ms < 80)  return 'var(--accent)' // match theme accent
-  if (ms < 200) return '#facc15' // yellow
-  return '#f87171'               // red
+  if (ms < 200) return 'var(--status-warning)'
+  return 'var(--status-danger)'
 }
 
 export function ActivityWidget() {
