@@ -39,4 +39,27 @@ function getDomainFromReferrer(referrer) {
   }
 }
 
+function renderBlockedContext() {
+  const domain = getDomainFromReferrer(document.referrer) ?? 'This site'
+  const domainChip = document.getElementById('domain-chip')
+  const domainHeadline = document.getElementById('blocked-domain')
+  const currentTime = document.getElementById('current-time')
+
+  if (domainChip) {
+    domainChip.textContent = domain
+  }
+
+  if (domainHeadline) {
+    domainHeadline.textContent = domain
+  }
+
+  if (currentTime) {
+    const now = new Date()
+    const hh = String(now.getHours()).padStart(2, '0')
+    const mm = String(now.getMinutes()).padStart(2, '0')
+    currentTime.textContent = `${hh}:${mm} local`
+  }
+}
+
+renderBlockedContext()
 void logBlockedAttempt()

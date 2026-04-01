@@ -5,121 +5,456 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Focus Mode Active</title>
   <style>
+    :root {
+      --bg: #0d1224;
+      --bg-panel: rgba(13, 21, 43, 0.78);
+      --bg-panel-strong: rgba(18, 31, 61, 0.92);
+      --line: rgba(103, 214, 233, 0.18);
+      --line-strong: rgba(103, 214, 233, 0.34);
+      --text: #e7eefc;
+      --muted: #95a1bf;
+      --accent: #49e1df;
+      --accent-soft: rgba(73, 225, 223, 0.12);
+      --warning: #ffd166;
+      --shadow: 0 30px 80px rgba(0, 0, 0, 0.42);
+      --font-mono: "JetBrains Mono", "IBM Plex Mono", "Fira Code", "Consolas", monospace;
+      color-scheme: dark;
+    }
+
     * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
     }
 
     body {
       min-height: 100vh;
+      font-family: var(--font-mono);
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(73, 225, 223, 0.08), transparent 26%),
+        radial-gradient(circle at 85% 20%, rgba(93, 108, 255, 0.14), transparent 28%),
+        linear-gradient(180deg, #0f1630 0%, #0b1020 48%, #090d19 100%);
+      overflow: hidden;
+    }
+
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      inset: auto;
+      border-radius: 999px;
+      pointer-events: none;
+      filter: blur(80px);
+      opacity: 0.5;
+    }
+
+    body::before {
+      width: 280px;
+      height: 280px;
+      top: -60px;
+      right: 12%;
+      background: rgba(73, 225, 223, 0.15);
+    }
+
+    body::after {
+      width: 360px;
+      height: 360px;
+      bottom: -120px;
+      left: -80px;
+      background: rgba(69, 95, 206, 0.24);
+    }
+
+    .shell {
+      position: relative;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 32px;
+    }
+
+    .frame {
+      width: min(1100px, 100%);
+      min-height: min(760px, calc(100vh - 64px));
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      background: linear-gradient(180deg, rgba(12, 19, 39, 0.88), rgba(8, 13, 25, 0.94));
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      position: relative;
+      isolation: isolate;
+    }
+
+    .frame::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, transparent 0, rgba(73, 225, 223, 0.03) 50%, transparent 100%),
+        linear-gradient(transparent 0, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 26px;
+      pointer-events: none;
+      opacity: 0.65;
+      z-index: -1;
+    }
+
+    .hero {
+      padding: 52px 48px 44px;
       display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 28px;
+      border-right: 1px solid var(--line);
+    }
+
+    .eyebrow {
+      display: inline-flex;
       align-items: center;
-      justify-content: center;
-      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f0f23 100%);
-      font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
-      color: #e0e0e0;
+      gap: 10px;
+      color: var(--accent);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-size: 12px;
     }
 
-    .container {
-      text-align: center;
-      padding: 40px;
-      max-width: 500px;
+    .eyebrow::before {
+      content: "";
+      width: 36px;
+      height: 1px;
+      background: var(--line-strong);
     }
 
-    .icon {
-      font-size: 80px;
-      margin-bottom: 24px;
-      animation: pulse 2s ease-in-out infinite;
+    .hero-main {
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
     }
 
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.1); opacity: 0.8; }
+    .shield {
+      width: 112px;
+      height: 112px;
+      display: grid;
+      place-items: center;
+      border-radius: 28px;
+      background:
+        radial-gradient(circle at 30% 30%, rgba(73, 225, 223, 0.22), rgba(73, 225, 223, 0.04) 50%, transparent 72%),
+        linear-gradient(180deg, rgba(73, 225, 223, 0.08), rgba(73, 225, 223, 0.02));
+      border: 1px solid var(--line-strong);
+      box-shadow: inset 0 0 40px rgba(73, 225, 223, 0.06), 0 0 40px rgba(73, 225, 223, 0.08);
+    }
+
+    .shield-mark {
+      font-size: 52px;
+      transform: translateY(-1px);
+      animation: drift 2.8s ease-in-out infinite;
+    }
+
+    @keyframes drift {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-4px) scale(1.03); }
     }
 
     h1 {
-      font-size: 2rem;
-      margin-bottom: 16px;
-      color: #3dd2cc;
-      text-shadow: 0 0 20px rgba(61, 210, 204, 0.3);
+      font-size: clamp(2.7rem, 5vw, 4.8rem);
+      line-height: 0.95;
+      letter-spacing: -0.06em;
+      max-width: 9ch;
     }
 
-    p {
-      font-size: 1rem;
-      line-height: 1.6;
-      color: #a0a0a0;
-      margin-bottom: 24px;
+    .lede {
+      max-width: 54ch;
+      color: var(--muted);
+      font-size: 1.05rem;
+      line-height: 1.8;
     }
 
-    .message {
-      background: rgba(61, 210, 204, 0.1);
-      border: 1px solid rgba(61, 210, 204, 0.3);
-      border-radius: 8px;
-      padding: 20px;
-      margin-top: 24px;
+    .lede strong {
+      color: var(--text);
+      font-weight: 500;
     }
 
-    .message p {
-      margin: 0;
-      color: #3dd2cc;
-      font-size: 0.9rem;
+    .hero-rail {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
     }
 
-    .tips {
-      margin-top: 32px;
-      text-align: left;
+    .metric {
+      padding: 16px 18px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.025);
+      border: 1px solid rgba(255, 255, 255, 0.05);
     }
 
-    .tips h3 {
-      font-size: 0.9rem;
-      color: #888;
-      margin-bottom: 12px;
+    .metric-label {
+      color: var(--muted);
+      font-size: 11px;
       text-transform: uppercase;
-      letter-spacing: 1px;
+      letter-spacing: 0.16em;
+      margin-bottom: 8px;
     }
 
-    .tips ul {
+    .metric-value {
+      font-size: 1rem;
+      color: var(--text);
+    }
+
+    .metric-value.accent {
+      color: var(--accent);
+    }
+
+    .aside {
+      padding: 52px 40px 44px;
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+      background:
+        linear-gradient(180deg, rgba(19, 28, 54, 0.72), rgba(10, 15, 30, 0.86));
+    }
+
+    .panel {
+      border-radius: 24px;
+      background: var(--bg-panel);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(14px);
+      padding: 22px;
+    }
+
+    .status-card {
+      background:
+        linear-gradient(180deg, rgba(73, 225, 223, 0.12), rgba(73, 225, 223, 0.04)),
+        var(--bg-panel-strong);
+      border-color: rgba(73, 225, 223, 0.2);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    }
+
+    .status-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .status-title {
+      font-size: 1rem;
+      color: var(--text);
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .pulse-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: currentColor;
+      box-shadow: 0 0 16px currentColor;
+      animation: blink 1.8s ease-in-out infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.45; }
+    }
+
+    .status-copy {
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 0.94rem;
+    }
+
+    .status-copy strong {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .section-title {
+      color: var(--warning);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      margin-bottom: 16px;
+    }
+
+    .tip-list {
       list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
     }
 
-    .tips li {
-      padding: 8px 0;
-      color: #666;
-      font-size: 0.85rem;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    .tip-list li {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      color: var(--muted);
+      line-height: 1.65;
+      font-size: 0.93rem;
+      padding-top: 10px;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
     }
 
-    .tips li:last-child {
-      border-bottom: none;
+    .tip-list li:first-child {
+      padding-top: 0;
+      border-top: none;
     }
 
-    .tips li::before {
-      content: '→ ';
-      color: #3dd2cc;
+    .tip-marker {
+      color: var(--accent);
+      flex: 0 0 auto;
+    }
+
+    .quote {
+      color: var(--text);
+      font-size: 1.05rem;
+      line-height: 1.8;
+    }
+
+    .quote span {
+      color: var(--muted);
+      display: block;
+      margin-top: 8px;
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+    }
+
+    .footer-note {
+      position: absolute;
+      left: 32px;
+      bottom: 18px;
+      color: rgba(149, 161, 191, 0.72);
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 920px) {
+      .frame {
+        grid-template-columns: 1fr;
+        min-height: auto;
+      }
+
+      .hero {
+        border-right: none;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .hero-rail {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-note {
+        position: static;
+        margin-top: 18px;
+        padding-left: 4px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .shell {
+        padding: 16px;
+      }
+
+      .hero,
+      .aside {
+        padding: 28px 22px;
+      }
+
+      .shield {
+        width: 88px;
+        height: 88px;
+        border-radius: 22px;
+      }
+
+      .shield-mark {
+        font-size: 42px;
+      }
+
+      h1 {
+        font-size: 2.35rem;
+        max-width: none;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="icon">🎯</div>
-    <h1>Focus Mode Active</h1>
-    <p>This site is blocked during your focus session to help you stay productive.</p>
-    
-    <div class="message">
-      <p>Stay focused! You're doing great. 💪</p>
-    </div>
+  <main class="shell">
+    <section class="frame">
+      <section class="hero">
+        <div class="hero-main">
+          <div class="eyebrow">Deep Work Guard</div>
+          <div class="shield" aria-hidden="true">
+            <div class="shield-mark">🎯</div>
+          </div>
+          <div>
+            <h1>Focus mode is holding the line.</h1>
+          </div>
+          <p class="lede">
+            <strong id="blocked-domain">This site</strong> is paused for this session so your attention stays with the work you actually meant to do.
+          </p>
+        </div>
 
-    <div class="tips">
-      <h3>Quick Tips</h3>
-      <ul>
-        <li>Take a deep breath and refocus on your task</li>
-        <li>Remember why you started this focus session</li>
-        <li>Small progress is still progress</li>
-        <li>The timer will end soon - stay strong!</li>
-      </ul>
-    </div>
-  </div>
+        <div class="hero-rail">
+          <div class="metric">
+            <div class="metric-label">Site</div>
+            <div class="metric-value" id="domain-chip">Blocked site</div>
+          </div>
+          <div class="metric">
+            <div class="metric-label">Mode</div>
+            <div class="metric-value accent">Shielded</div>
+          </div>
+          <div class="metric">
+            <div class="metric-label">Reminder</div>
+            <div class="metric-value" id="current-time">Stay on task</div>
+          </div>
+        </div>
+      </section>
+
+      <aside class="aside">
+        <section class="panel status-card">
+          <div class="status-row">
+            <div class="status-title">Session protection is active</div>
+            <div class="pill"><span class="pulse-dot"></span>Blocking</div>
+          </div>
+          <p class="status-copy">
+            This redirect is here to reduce context-switching. Close this tab, return to your task, and let the timer finish the hard part for you.
+          </p>
+        </section>
+
+        <section class="panel">
+          <div class="section-title">Reset Your Attention</div>
+          <ul class="tip-list">
+            <li><span class="tip-marker">&gt;</span><span>Write the next tiny action you can finish in under five minutes.</span></li>
+            <li><span class="tip-marker">&gt;</span><span>Take one breath, relax your shoulders, and reopen the work tab you meant to use.</span></li>
+            <li><span class="tip-marker">&gt;</span><span>If you were avoiding friction, reduce the task until it feels almost too easy to start.</span></li>
+          </ul>
+        </section>
+
+        <section class="panel">
+          <div class="quote">
+            Small progress still counts. Protecting one block of attention is how strong systems get built.
+            <span>Neko Tab Focus Mode</span>
+          </div>
+        </section>
+      </aside>
+    </section>
+    <div class="footer-note">Blocked by Neko Tab</div>
+  </main>
   <script src="blocked.js"></script>
 </body>
 </html>

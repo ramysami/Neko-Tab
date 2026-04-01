@@ -49,9 +49,7 @@ async function measureLatency(): Promise<number | null> {
 
 function latencyColor(ms: number | null): string {
   if (ms === null) return 'var(--text-secondary)'
-  if (ms < 80)  return 'var(--accent)' // match theme accent
-  if (ms < 200) return 'var(--status-warning)'
-  return 'var(--status-danger)'
+  return 'var(--accent)'
 }
 
 export function ActivityWidget() {

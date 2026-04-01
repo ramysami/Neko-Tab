@@ -27,6 +27,24 @@ chrome.runtime.onInstalled.addListener(async () => {
 })
 
 chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
+  if (message?.type === 'neko-sync-focus-blocking') {
+    const payload = message.payload || { isActive: false, blockedDomains: [], sessionId: null }
+    const nextState = {
+      isActive: Boolean(payload.isActive),
+      blockedDomains: Array.isArray(payload.blockedDomains) ? payload.blockedDomains : [],
+      sessionId: payload.sessionId ?? null,
+    }
+
+    activeFocusBlocking = nextState
+
+    void (async () => {
+      await updateBlockingRules(nextState.isActive, nextState.blockedDomains)
+      sendResponse({ ok: true })
+    })()
+
+    return true
+  }
+
   if (message?.type === 'neko-focus-session-complete') {
     void chrome.notifications.create({
       type: 'basic',
@@ -75,6 +93,10 @@ async function loadFocusBlockingState() {
         blockedDomains: Array.isArray(focusBlocking.blockedDomains) ? focusBlocking.blockedDomains : [],
         sessionId: focusBlocking.sessionId ?? null,
       }
+
+      if (activeFocusBlocking.isActive) {
+        await updateBlockingRules(activeFocusBlocking.isActive, activeFocusBlocking.blockedDomains)
+      }
     }
   } catch (error) {
     console.error('Failed to load focus blocking state:', error)
@@ -82,7 +104,11 @@ async function loadFocusBlockingState() {
 }
 
 function isBlockedHost(hostname, blockedDomains) {
-  return blockedDomains.some(domain => hostname === domain || hostname.endsWith(`.${domain}`))
+  const normalizedHost = normalizeDomain(hostname)
+  return blockedDomains
+    .map(normalizeDomain)
+    .filter(Boolean)
+    .some(domain => normalizedHost === domain || normalizedHost.endsWith(`.${domain}`))
 }
 
 async function logDistractionAttempt(sessionId, domain) {
@@ -116,16 +142,31 @@ function getDomainFromReferrer(referrer) {
   }
 }
 
+function normalizeDomain(domain) {
+  if (typeof domain !== 'string') return ''
+
+  return domain
+    .trim()
+    .toLowerCase()
+    .replace(/^(https?:\/\/)?(www\.)?/, '')
+    .replace(/\/.*$/, '')
+    .replace(/:\d+$/, '')
+    .replace(/\.+$/, '')
+}
+
 async function updateBlockingRules(isActive, blockedDomains) {
   // First, remove all existing focus mode rules
   await clearAllBlockingRules()
 
-  if (!isActive || !blockedDomains || blockedDomains.length === 0) {
+  const normalizedDomains = Array.from(
+    new Set((blockedDomains || []).map(normalizeDomain).filter(Boolean))
+  )
+
+  if (!isActive || normalizedDomains.length === 0) {
     return
   }
 
-  // Create new rules for each blocked domain
-  const rules = blockedDomains.map((domain, index) => ({
+  const rules = normalizedDomains.map((domain, index) => ({
     id: RULE_ID_START + index,
     priority: 1,
     action: {
@@ -135,33 +176,17 @@ async function updateBlockingRules(isActive, blockedDomains) {
       }
     },
     condition: {
-      urlFilter: `*://*.${domain}/*`,
-      resourceTypes: ['main_frame']
-    }
-  }))
-
-  // Also block the root domain without www
-  const rootRules = blockedDomains.map((domain, index) => ({
-    id: RULE_ID_START + blockedDomains.length + index,
-    priority: 1,
-    action: {
-      type: 'redirect',
-      redirect: {
-        extensionPath: '/blocked.html'
-      }
-    },
-    condition: {
-      urlFilter: `*://${domain}/*`,
+      requestDomains: [domain],
       resourceTypes: ['main_frame']
     }
   }))
 
   try {
     await chrome.declarativeNetRequest.updateDynamicRules({
-      addRules: [...rules, ...rootRules],
+      addRules: rules,
       removeRuleIds: []
     })
-    console.log('Focus mode blocking enabled for:', blockedDomains)
+    console.log('Focus mode blocking enabled for:', normalizedDomains)
   } catch (error) {
     console.error('Failed to update blocking rules:', error)
   }

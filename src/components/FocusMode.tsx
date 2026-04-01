@@ -77,6 +77,16 @@ interface SummaryData {
   }[]
 }
 
+function normalizeDomain(input: string): string {
+  return input
+    .trim()
+    .toLowerCase()
+    .replace(/^(https?:\/\/)?(www\.)?/, '')
+    .replace(/\/.*$/, '')
+    .replace(/:\d+$/, '')
+    .replace(/\.+$/, '')
+}
+
 export function FocusMode() {
   const [isActive, setIsActive] = useState(false)
   const [durationMin, setDurationMin] = useLocalStorage<number>('focus-duration-min', 25)
@@ -157,13 +167,20 @@ export function FocusMode() {
         ? DISTRACTING_SITES.filter(s => sites.includes(s.id)).map(s => s.domain)
         : []
       const customDomains = running ? custom.map(s => s.domain) : []
+      const payload = {
+        isActive: running,
+        blockedDomains: [...presetDomains, ...customDomains],
+        sessionId: running ? sessionId : null,
+      }
+
       chrome.storage.local.set({
-        focusBlocking: {
-          isActive: running,
-          blockedDomains: [...presetDomains, ...customDomains],
-          sessionId: running ? sessionId : null,
-        }
+        focusBlocking: payload
       })
+
+      chrome.runtime?.sendMessage?.({
+        type: 'neko-sync-focus-blocking',
+        payload,
+      }).catch(() => {})
     }
   }, [])
 
@@ -343,9 +360,8 @@ export function FocusMode() {
   }
 
   const addCustomSite = () => {
-    let domain = customSiteInput.trim().toLowerCase()
+    let domain = normalizeDomain(customSiteInput)
     if (!domain) return
-    domain = domain.replace(/^(https?:\/\/)?(www\.)?/, '').split('/')[0]
     if (customSites.some(s => s.domain === domain)) { setCustomSiteInput(''); return }
     const newSite: CustomSite = { id: `custom-${Date.now()}`, domain }
     const next = [...customSites, newSite]
