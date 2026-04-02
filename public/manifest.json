@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "Neko Tab",
-  "version": "1.0.3",
-  // "key": "ADD_YOUR_OWN_KEY",
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAzRgQeVfo16mTCUQuW78ztvFcc4Panz88aLCBe1FHZfhlZgWhq2CmZhRyI/oGRN4Rr128uRz/dUwVpRukqtSdszlVLbM0UsGVWxdhn3v8XHoGxYPJZHIUQfb8XQRkwduH1A4b0/0Sq/EjbRoYGHgcOQfJkOIlTMAsqU86N1ClBhUVqUWLTHefExYZC9bQaKX0kR9iHq8rFmnZppTmzvL1f7jYHoLALKgqgylY851a0YCUABxnIld5Sto5g5OyDX3xC/+3ZWhBCDTLu3xlF+pnX1dOkO+B1L4eLSoPXjtdPDpc5TnNtuSwqakV5wlu5EFnV67aiHia+hF1t0frPbgmXwIDAQAB",
+  "version": "1.1.0",
   "description": "Custom Terminal-style New Tab Page",
   "chrome_url_overrides": {
     "newtab": "index.html"
@@ -21,7 +21,7 @@
     "identity"
   ],
   "oauth2": {
-    // "client_id": "ADD_YOUR_CLIENT_ID",
+    "client_id": "1060462978810-vgg9tga1g0r3chd052r9l8k0qr8lrblk.apps.googleusercontent.com",
     "scopes": [
       "https://www.googleapis.com/auth/calendar.events.readonly"
     ]
