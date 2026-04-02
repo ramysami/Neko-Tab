@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react'
-import { Settings, X, Plus, Check, Upload, Palette, Save, Monitor, Terminal, LayoutGrid, Hash, Trash2, Download, Cpu, AlertTriangle } from 'lucide-react'
+import { Settings, X, Plus, Check, Upload, Palette, Save, Monitor, Terminal, LayoutGrid, Hash, Trash2, Download, Cpu, AlertTriangle, Plug } from 'lucide-react'
 import type { Settings as SettingsType, ThemeInfo, UrlAlias } from '../types'
 import { convertImageToAscii } from '../utils/imageToAscii'
 import { useLocalStorage } from '../hooks/useLocalStorage'
+import { useGoogleCalendar } from '../hooks/useGoogleCalendar'
 
 const THEMES: ThemeInfo[] = [
   // Simple Color Themes
@@ -52,7 +53,63 @@ interface SettingsPanelProps {
   onAddCategory: (name: string) => void
 }
 
-type TabType = 'appearance' | 'preferences' | 'ascii' | 'widgets' | 'aliases' | 'backup' | 'advanced';
+type TabType = 'appearance' | 'preferences' | 'ascii' | 'widgets' | 'aliases' | 'integrations' | 'backup' | 'advanced';
+function GoogleCalendarSettings({ 
+  showGoogleCalendar, 
+  onChange 
+}: { 
+  showGoogleCalendar: boolean, 
+  onChange: (val: boolean) => void 
+}) {
+  const { isConnected, connect, disconnect, error } = useGoogleCalendar(true);
+  const isExtension = typeof chrome !== 'undefined' && !!chrome.identity;
+
+  return (
+    <div className='saas-card'>
+      <label className='saas-label'>Google Calendar</label>
+
+      {!isExtension && (
+        <div className='saas-hint' style={{ color: '#ffb300', marginBottom: 16, border: '1px solid rgba(255, 179, 0, 0.2)', padding: '8px', borderRadius: '4px' }}>
+          Identity API not detected. Please make sure this is running as a loaded extension in Chrome.
+        </div>
+      )}
+
+      <div className='saas-toggle-list' style={{ marginBottom: 12 }}>
+        <div className="saas-toggle-row">
+          <span className="saas-toggle-label">Show upcoming event on home page</span>
+          <button 
+            className={`saas-toggle-btn ${showGoogleCalendar ? 'active' : ''}`}
+            onClick={() => onChange(!showGoogleCalendar)}
+            disabled={!isConnected}
+            style={{ opacity: !isConnected ? 0.5 : 1, cursor: !isConnected ? 'not-allowed' : 'pointer' }}
+          >
+            <div className="saas-toggle-thumb" />
+          </button>
+        </div>
+      </div>
+
+      {!isConnected ? (
+        <div>
+          <p className='saas-hint' style={{ marginBottom: 12 }}>Connect your Google account to see your next upcoming event.</p>
+          <button className='saas-btn-primary' onClick={connect}>
+            Connect Google Calendar
+          </button>
+        </div>
+      ) : (
+        <div>
+          <p className='saas-hint' style={{ marginBottom: 12, color: 'var(--accent-color)' }}>✓ Connected to Google Calendar</p>
+          <button className='saas-btn-secondary' onClick={disconnect}>
+            Disconnect
+          </button>
+        </div>
+      )}
+
+      {error && (
+        <p className='saas-hint' style={{ marginTop: 12, color: '#ff4444' }}>Error: {error}</p>
+      )}
+    </div>
+  );
+}
 
 export function SettingsPanel({ settings, onSettingsChange, onAddCategory }: SettingsPanelProps) {
   const [isOpen, setIsOpen] = useState(false)
@@ -198,6 +255,12 @@ export function SettingsPanel({ settings, onSettingsChange, onAddCategory }: Set
                   <Hash size={16} /> Aliases
                 </button>
                 <button
+                  className={`saas-nav-item ${activeTab === 'integrations' ? 'active' : ''}`}
+                  onClick={() => setActiveTab('integrations')}
+                >
+                  <Plug size={16} /> Integrations
+                </button>
+                <button
                   className={`saas-nav-item ${activeTab === 'backup' ? 'active' : ''}`}
                   onClick={() => setActiveTab('backup')}
                 >
@@ -221,6 +284,7 @@ export function SettingsPanel({ settings, onSettingsChange, onAddCategory }: Set
                   {activeTab === 'ascii' && 'Custom ASCII Art'}
                   {activeTab === 'widgets' && 'Widgets & Background'}
                   {activeTab === 'aliases' && 'URL Aliases'}
+                  {activeTab === 'integrations' && 'Integrations'}
                   {activeTab === 'backup' && 'Backup & Restore'}
                   {activeTab === 'advanced' && 'Advanced Settings'}
                 </h3>
@@ -619,6 +683,17 @@ export function SettingsPanel({ settings, onSettingsChange, onAddCategory }: Set
                     )}
                   </div>
                 )}
+
+                {/* INTEGRATIONS TAB */}
+                {activeTab === 'integrations' && (
+                  <div className='saas-section'>
+                    <GoogleCalendarSettings 
+                      showGoogleCalendar={localSettings.showGoogleCalendar ?? false} 
+                      onChange={(val) => handleChange('showGoogleCalendar', val)} 
+                    />
+                  </div>
+                )}
+
                 {/* BACKUP TAB */}
                 {activeTab === 'backup' && (
                   <div className='saas-section'>

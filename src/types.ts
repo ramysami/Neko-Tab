@@ -61,4 +61,6 @@ export interface Settings {
   showChromeTab: boolean
   // Bookmarks
   showBookmarks: boolean
+  // Google Calendar
+  showGoogleCalendar: boolean
 }

@@ -60,7 +60,8 @@ const DEFAULT_SETTINGS: Settings = {
   customAsciiArt: CAT_ASCII,
   asciiArt: CAT_ASCII,
   showChromeTab: false,
-  showBookmarks: true
+  showBookmarks: true,
+  showGoogleCalendar: false
 }
 
 export function useLocalStorage<T>(key: string, defaultValue: T): [T, (value: T | ((prev: T) => T)) => void] {
