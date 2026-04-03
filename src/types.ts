@@ -45,6 +45,7 @@ export interface Settings {
   showTabCounter: boolean
   theme: ThemeType
   clockFormat: '12h' | '24h'
+  weekStartDay: 'sunday' | 'monday' | 'saturday'
   asciiArtSource: AsciiArtSource
   asciiArt?: string // Deprecated, but keep for migration if needed
   customAsciiArt?: string
@@ -53,6 +54,7 @@ export interface Settings {
   bgBlur: number       // 0–10
   // Widgets
   showDailyGoal: boolean
+  showCalendar: boolean
   showGitHubStreak: boolean
   githubUsername: string
   // Font

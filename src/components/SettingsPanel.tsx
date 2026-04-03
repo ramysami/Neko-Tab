@@ -481,6 +481,7 @@ export function SettingsPanel({ settings, onSettingsChange, onAddCategory }: Set
                         {localSettings.showStatusBar && renderToggle('Show Tab Counter', localSettings.showTabCounter ?? true, val => handleChange('showTabCounter', val))}
                         {renderToggle('Show Greeting', localSettings.showGreeting, val => handleChange('showGreeting', val))}
                         {renderToggle('Show Clock', localSettings.showClock, val => handleChange('showClock', val))}
+                        {renderToggle('Show Calendar', localSettings.showCalendar ?? true, val => handleChange('showCalendar', val))}
                       </div>
                     </div>
 
@@ -498,6 +499,30 @@ export function SettingsPanel({ settings, onSettingsChange, onAddCategory }: Set
                           onClick={() => handleChange('clockFormat', '24h')}
                         >
                           24-Hour
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className='saas-card'>
+                      <label className='saas-label'>Week Starts On</label>
+                      <div className='saas-segmented-control'>
+                        <button 
+                          className={`saas-segment ${localSettings.weekStartDay === 'sunday' ? 'active' : ''}`}
+                          onClick={() => handleChange('weekStartDay', 'sunday')}
+                        >
+                          Sunday
+                        </button>
+                        <button 
+                          className={`saas-segment ${localSettings.weekStartDay === 'monday' ? 'active' : ''}`}
+                          onClick={() => handleChange('weekStartDay', 'monday')}
+                        >
+                          Monday
+                        </button>
+                        <button 
+                          className={`saas-segment ${localSettings.weekStartDay === 'saturday' ? 'active' : ''}`}
+                          onClick={() => handleChange('weekStartDay', 'saturday')}
+                        >
+                          Saturday
                         </button>
                       </div>
                     </div>

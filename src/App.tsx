@@ -8,6 +8,7 @@ import { WINDOWS_ASCII, MACOS_ASCII, LINUX_ASCII, CAT_ASCII, DETECTED_OS } from 
 import { Bookmarks } from "./components/Bookmarks";
 import { Clock } from "./components/Clock";
 import { UpcomingEvent } from "./components/UpcomingEvent";
+import { Calendar } from "./components/Calendar";
 import { PixelArt } from "./components/PixelArt";
 import { ActivityWidget } from "./components/ActivityWidget";
 import { DailyGoal } from "./components/DailyGoal";
@@ -158,6 +159,12 @@ function App() {
           {settings.showDailyGoal && <DailyGoal />}
           <CommandPalette />
         </div>
+
+        {settings.showCalendar && (
+          <div className="calendar-corner">
+            <Calendar />
+          </div>
+        )}
 
         {/* Content Section */}
         <div className="content-section">
