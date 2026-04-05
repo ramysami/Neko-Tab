@@ -15,6 +15,8 @@ Press `Ctrl+K` or `/` to open the unified command palette. It replaces the tradi
 
 - **Smart routing** — type a URL (`github.com/raj`) and it navigates directly; type a keyword and it fuzzy-searches your bookmarks and aliases; type anything else and it falls through to web search
 - **URL aliases** — define short keys like `gh → https://github.com/raj` that appear first in results
+- **Browser history autocomplete** — typing `instagram` also searches browser history, shows matching previously visited pages with a `◷` icon, and dedupes them against aliases and bookmarks already shown
+- **Built-in calculator** — type `= 1920/2` to instantly evaluate numeric expressions with support for `+`, `-`, `*`, `/`, `%`, `()`, and `^`; press `Enter` to copy the result
 - **Engine switcher** — switch between Google, DuckDuckGo, GitHub, and YouTube inside the palette
 - **Fuzzy search** — matches bookmarks by title, URL, or category
 
@@ -168,6 +170,7 @@ Open the gear icon (top-right) to access:
 | Permission | Why |
 |---|---|
 | `storage` | Persist settings, bookmarks, scratchpad, aliases, timer state |
+| `history` | Search browser history from the command palette and surface matching recently visited pages |
 | `declarativeNetRequest` | Block sites during Focus Mode sessions |
 | `host_permissions: <all_urls>` | Required for site blocking to apply on any domain |
 | `identity` | OAuth flow for Google Calendar integration (Chrome only) |
