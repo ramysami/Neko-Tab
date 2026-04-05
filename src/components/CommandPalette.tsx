@@ -12,8 +12,8 @@ interface Result {
   sub: string
   url?: string
   action?: () => void
-  icon: any // Using any to avoid importing ReactNode while supporting Lucide components
-  type: 'alias' | 'bookmark' | 'search' | 'url' | 'recent' | 'command'
+  icon: any
+  type: 'alias' | 'bookmark' | 'search' | 'url' | 'recent' | 'command' | 'history' | 'calc'
 }
 
 interface RecentItem {
@@ -44,6 +44,131 @@ function fuzzy(str: string, query: string): boolean {
 
 function isUrl(str: string): boolean {
   return /^https?:\/\//i.test(str) || /^[\w-]+\.\w{2,}(\/.*)?$/.test(str)
+}
+
+function tryCalc(expr: string): string | null {
+  try {
+    if (!/^[\d\s+\-*/.^()%]+$/.test(expr)) return null
+
+    const source = expr.replace(/\s+/g, '')
+    if (!source) return null
+
+    let index = 0
+
+    const consume = (char: string) => {
+      if (source[index] === char) {
+        index += 1
+        return true
+      }
+      return false
+    }
+
+    const parseNumber = (): number | null => {
+      const start = index
+      let hasDigit = false
+
+      while (/\d/.test(source[index] || '')) {
+        index += 1
+        hasDigit = true
+      }
+
+      if (source[index] === '.') {
+        index += 1
+        while (/\d/.test(source[index] || '')) {
+          index += 1
+          hasDigit = true
+        }
+      }
+
+      if (!hasDigit) return null
+      const value = Number(source.slice(start, index))
+      return Number.isFinite(value) ? value : null
+    }
+
+    const parsePrimary = (): number | null => {
+      if (consume('(')) {
+        const value = parseExpression()
+        if (value === null || !consume(')')) return null
+        return value
+      }
+
+      if (consume('+')) return parsePrimary()
+      if (consume('-')) {
+        const value = parsePrimary()
+        return value === null ? null : -value
+      }
+
+      return parseNumber()
+    }
+
+    const parsePower = (): number | null => {
+      const left = parsePrimary()
+      if (left === null) return null
+      if (!consume('^')) return left
+
+      const right = parsePower()
+      if (right === null) return null
+      return left ** right
+    }
+
+    const parseTerm = (): number | null => {
+      let value = parsePower()
+      if (value === null) return null
+
+      while (true) {
+        if (consume('*')) {
+          const rhs = parsePower()
+          if (rhs === null) return null
+          value *= rhs
+          continue
+        }
+        if (consume('/')) {
+          const rhs = parsePower()
+          if (rhs === null || rhs === 0) return null
+          value /= rhs
+          continue
+        }
+        if (consume('%')) {
+          const rhs = parsePower()
+          if (rhs === null || rhs === 0) return null
+          value %= rhs
+          continue
+        }
+        break
+      }
+
+      return value
+    }
+
+    const parseExpression = (): number | null => {
+      let value = parseTerm()
+      if (value === null) return null
+
+      while (true) {
+        if (consume('+')) {
+          const rhs = parseTerm()
+          if (rhs === null) return null
+          value += rhs
+          continue
+        }
+        if (consume('-')) {
+          const rhs = parseTerm()
+          if (rhs === null) return null
+          value -= rhs
+          continue
+        }
+        break
+      }
+
+      return value
+    }
+
+    const result = parseExpression()
+    if (result === null || index !== source.length || !isFinite(result)) return null
+    return parseFloat(result.toPrecision(12)).toString()
+  } catch {
+    return null
+  }
 }
 
 function todayKey(): string {
@@ -89,6 +214,7 @@ export function CommandPalette() {
   const [selected, setSelected] = useState(0)
   const [engine, setEngine] = useState('google')
   const [toast, setToast] = useState<string | null>(null)
+  const [historyResults, setHistoryResults] = useState<RecentItem[]>([])
   const { categories } = useBookmarks()
   const [settings, setSettings] = useSettings()
   const [aliases] = useLocalStorage<UrlAlias[]>('neko-aliases', [])
@@ -110,6 +236,30 @@ export function CommandPalette() {
       return [{ label, url, ts: Date.now() }, ...filtered].slice(0, 10)
     })
   }
+
+  // Search browser history when query changes
+  useEffect(() => {
+    if (!query.trim() || query.startsWith('/') || query.startsWith('=')) {
+      setHistoryResults([])
+      return
+    }
+    if (typeof chrome === 'undefined' || !chrome.history) return
+    chrome.history.search(
+      { text: query, maxResults: 5, startTime: 0 },
+      (items) => {
+        const seen = new Set<string>()
+        const mapped = items
+          .filter(item => item.url && item.title)
+          .map(item => ({ label: item.title!, url: item.url!, ts: item.lastVisitTime || 0 }))
+          .filter(item => {
+            if (seen.has(item.url)) return false
+            seen.add(item.url)
+            return true
+          })
+        setHistoryResults(mapped)
+      }
+    )
+  }, [query])
 
   // Mirror theme class onto the portaled panel so CSS vars resolve correctly
   const themeClass = useMemo(() => {
@@ -350,6 +500,25 @@ export function CommandPalette() {
       return out
     }
 
+    // Calculator — prefix with = 
+    if (query.startsWith('=')) {
+      const expr = query.slice(1).trim()
+      const calcResult = expr ? tryCalc(expr) : null
+      out.push({
+        id: '__calc__',
+        label: calcResult !== null ? `= ${calcResult}` : '= ...',
+        sub: calcResult !== null ? 'Enter to copy result' : 'type an expression, e.g. = 1920/2',
+        icon: '∑',
+        type: 'calc',
+        action: calcResult !== null ? () => {
+          void navigator.clipboard.writeText(calcResult)
+            .then(() => showToast(`Copied: ${calcResult}`))
+            .catch(() => showToast('Clipboard copy failed'))
+        } : undefined,
+      })
+      return out
+    }
+
     // Exact URL typed
     if (isUrl(query)) {
       const href = /^https?:\/\//i.test(query) ? query : 'https://' + query
@@ -372,6 +541,15 @@ export function CommandPalette() {
       }
     }
 
+    // Browser history
+    const seenUrls = new Set(out.map(r => r.url).filter(Boolean))
+    for (const h of historyResults) {
+      if (!seenUrls.has(h.url)) {
+        out.push({ id: `history-${h.url}`, label: h.label, sub: h.url, url: h.url, icon: '◷', type: 'history' })
+        seenUrls.add(h.url)
+      }
+    }
+
     // Web search fallback — always show when there's a query
     if (query.trim() && !isUrl(query)) {
       out.push({
@@ -385,7 +563,7 @@ export function CommandPalette() {
     }
 
     return out
-  }, [query, categories, aliases, engine, settings.theme, settings.font, settings.clockFormat, recent, showToast, setSettings, setRecent, setDailyGoal, setScratchpad])
+  }, [query, categories, aliases, engine, settings.theme, settings.font, settings.clockFormat, recent, historyResults, showToast, setSettings, setRecent, setDailyGoal, setScratchpad])
 
   useEffect(() => { setSelected(0) }, [query])
 
