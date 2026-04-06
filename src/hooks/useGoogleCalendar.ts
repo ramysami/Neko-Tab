@@ -28,13 +28,18 @@ export function useGoogleCalendar(fetchEnabled: boolean) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Always check for an existing token on mount to determine connection status
+  // Always check for an existing token on mount to determine connection status.
+  // NOTE: Do NOT write CALENDAR_CONNECTED=false on lastError here — a transient
+  // startup failure (network not ready, token cache cold) would incorrectly wipe
+  // the connected state, which then causes the extension to be re-validated by
+  // Chrome and dropped from the active list on next restart.
   useEffect(() => {
     if (!chrome.identity) return;
 
     chrome.identity.getAuthToken({ interactive: false }, (authToken) => {
       if (chrome.runtime.lastError) {
-        localStorage.setItem(STORAGE_KEYS.CALENDAR_CONNECTED, 'false');
+        // Transient error — leave CALENDAR_CONNECTED as-is so the UI retains
+        // its last known state. The user can manually disconnect if needed.
         return;
       }
       if (authToken) {

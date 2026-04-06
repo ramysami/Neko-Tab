@@ -253,7 +253,6 @@ function loadFont(family: string) {
 export function useSettings() {
   const [settings, setSettings] = useLocalStorage<Settings>('startpage-settings', DEFAULT_SETTINGS)
 
-  // Lazily load only the selected font — not all fonts upfront
   useEffect(() => {
     const font = settings.font || 'JetBrains Mono'
     loadFont(font)

@@ -5,10 +5,12 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>New Tab</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
-    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+    <!-- Font preconnect hints are intentionally omitted.
+         Chrome MV3 extensions block external network requests from extension
+         pages via CSP, so preconnect/dns-prefetch to fonts.googleapis.com
+         causes CSP violations on every new tab load, which makes Chrome mark
+         the extension as broken and drop it after restart. Fonts are loaded
+         dynamically by useSettings() only when needed. -->
     <style>
       /* Instant background based on system preference */
       :root {

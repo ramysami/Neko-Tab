@@ -2,7 +2,11 @@
   "manifest_version": 3,
   "name": "Neko Tab",
   "version": "1.1.0",
+  "key": "__GOOGLE_EXTENSION_KEY__",
   "description": "Custom Terminal-style New Tab Page",
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'; style-src 'self' 'sha256-9h6cMlG+wehv5PIl9iqaQcU8WSqE0ANpgmuDQF5LX6I=' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net"
+  },
   "chrome_url_overrides": {
     "newtab": "index.html"
   },
@@ -21,7 +25,7 @@
     "history"
   ],
   "oauth2": {
-    "client_id": "791480643516-af6q34397bn913qq9khq3m1ntbvf596a.apps.googleusercontent.com",
+    "client_id": "__GOOGLE_CLIENT_ID__",
     "scopes": [
       "https://www.googleapis.com/auth/calendar.events.readonly"
     ]
