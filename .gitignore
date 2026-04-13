@@ -31,3 +31,5 @@ coverage
 node_modules/
 .gitignore
 .codex
+.claude/
+graphify-out/
